@@ -1,8 +1,8 @@
 package com.example.server.controller;
 
-import com.example.server.dto.auth.AuthRequest;
-import com.example.server.dto.auth.AuthResponse;
-import com.example.server.dto.auth.UserRegistrationRequest;
+import com.example.server.dto.AuthRequest;
+import com.example.server.dto.AuthResponse;
+import com.example.server.dto.UserRequest;
 import com.example.server.service.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -26,7 +26,7 @@ public class AuthController {
 
     @PostMapping("/registration")
     public ResponseEntity<AuthResponse> register(
-            @RequestBody @Valid UserRegistrationRequest request,
+            @RequestBody @Valid UserRequest request,
             HttpServletResponse response) {
         return ResponseEntity.ok(authService.register(request, response));
     }

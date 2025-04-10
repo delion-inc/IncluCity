@@ -1,8 +1,8 @@
 package com.example.server.service.impl;
 
-import com.example.server.dto.auth.AuthRequest;
-import com.example.server.dto.auth.AuthResponse;
-import com.example.server.dto.auth.UserRegistrationRequest;
+import com.example.server.dto.AuthRequest;
+import com.example.server.dto.AuthResponse;
+import com.example.server.dto.UserRequest;
 import com.example.server.entity.User;
 import com.example.server.enums.Role;
 import com.example.server.exception.AuthenticationException;
@@ -46,7 +46,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
-    public AuthResponse register(UserRegistrationRequest request, HttpServletResponse response) {
+    public AuthResponse register(UserRequest request, HttpServletResponse response) {
         if (userRepository.existsByEmail(request.getEmail())) {
             throw new AuthenticationException("Email already exists", HttpStatus.CONFLICT);
         }
@@ -101,7 +101,7 @@ public class AuthServiceImpl implements AuthService {
                 .orElseThrow(() -> new AuthenticationException("User not found", HttpStatus.NOT_FOUND));
     }
 
-    private User createNewUser(UserRegistrationRequest request) {
+    private User createNewUser(UserRequest request) {
         Set<Role> roles = request.getRoles();
         if (roles == null || roles.isEmpty()) {
             roles = Set.of(Role.ROLE_USER);
