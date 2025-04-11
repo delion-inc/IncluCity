@@ -46,7 +46,7 @@ public class PlaceController {
     })
     @GetMapping("/{id}")
     public PlaceResponse getPlaceById(
-            @Parameter(description = "ID of the place to retrieve") 
+            @Parameter(description = "ID of the place to retrieve")
             @PathVariable Long id
     ) {
         return placeService.getPlaceById(id);
@@ -59,6 +59,7 @@ public class PlaceController {
             @ApiResponse(responseCode = "400", description = "Invalid input")
     })
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_USER')")
     public PlaceResponse createPlace(@Valid @RequestBody PlaceRequest request) {
         return placeService.createPlace(request);
     }
@@ -72,9 +73,9 @@ public class PlaceController {
             @ApiResponse(responseCode = "404", description = "Place not found")
     })
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public PlaceResponse updatePlace(
-            @Parameter(description = "ID of the place to update") 
+            @Parameter(description = "ID of the place to update")
             @PathVariable Long id,
             @Valid @RequestBody PlaceUpdateRequest request
     ) {
@@ -89,9 +90,9 @@ public class PlaceController {
             @ApiResponse(responseCode = "404", description = "Place not found")
     })
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<Void> deletePlace(
-            @Parameter(description = "ID of the place to delete") 
+            @Parameter(description = "ID of the place to delete")
             @PathVariable Long id
     ) {
         placeService.deletePlace(id);

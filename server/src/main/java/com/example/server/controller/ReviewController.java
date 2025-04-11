@@ -14,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -83,6 +84,7 @@ public class ReviewController {
             @ApiResponse(responseCode = "404", description = "Place not found")
     })
     @PostMapping
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ReviewResponse createReview(@Valid @RequestBody ReviewRequest request) {
         return reviewService.createReview(request);
     }
@@ -96,6 +98,7 @@ public class ReviewController {
             @ApiResponse(responseCode = "404", description = "Review not found")
     })
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ReviewResponse updateReview(
             @Parameter(description = "ID of the review to update")
             @PathVariable Long id,
@@ -111,6 +114,7 @@ public class ReviewController {
             @ApiResponse(responseCode = "404", description = "Review not found")
     })
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasRole('ROLE_USER')")
     public ResponseEntity<Void> deleteReview(
             @Parameter(description = "ID of the review to delete")
             @PathVariable Long id
