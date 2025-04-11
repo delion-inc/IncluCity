@@ -30,10 +30,6 @@
             </column>
             <column name="updated_at" type="BIGINT"/>
         </createTable>
-
-        <addUniqueConstraint tableName="reviews"
-                           columnNames="user_id, place_id"
-                           constraintName="unique_user_place_review"/>
     </changeSet>
 
 </databaseChangeLog> 

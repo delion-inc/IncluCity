@@ -4,6 +4,7 @@ import com.example.server.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.access.ConfigAttribute;
@@ -41,11 +42,24 @@ import java.util.List;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-    
+
     private static final String[] PUBLIC_ENDPOINTS = {
             "/api/v1/auth/**",
             "/api/v1/v3/api-docs/**",
             "/swagger-ui/**",
+            "/api/v1/places/all",
+            "/api/v1/places/{id}",
+            "/api/v1/reviews/all",
+            "/api/v1/reviews/{id}",
+            "/api/v1/reviews/user/{userId}",
+            "/api/v1/reviews/place/{placeId}"
+    };
+
+    private static final String[] USER_ENDPOINTS = {
+            "/api/v1/places",
+            "/api/v1/places/{id}",
+            "/api/v1/reviews",
+            "/api/v1/reviews/{id}"
     };
 
     private static final String[] ALLOWED_ORIGINS = {
@@ -53,7 +67,7 @@ public class SecurityConfig {
             "http://localhost:3000",
             "http://localhost:4173"
     };
-    
+
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final UserDetailsService userDetailsService;
 
@@ -68,15 +82,17 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers(PUBLIC_ENDPOINTS).permitAll()
-                        .requestMatchers("/api/v1/users/**").hasAnyRole("USER", "ADMIN")
-                        .anyRequest().authenticated();
+                    auth.requestMatchers(PUBLIC_ENDPOINTS).permitAll();
+                    auth.requestMatchers(HttpMethod.GET, USER_ENDPOINTS).permitAll();
+                    auth.requestMatchers(HttpMethod.POST, USER_ENDPOINTS).hasAnyRole("USER", "ADMIN");
+                    auth.requestMatchers(HttpMethod.PUT, USER_ENDPOINTS).hasAnyRole("USER", "ADMIN");
+                    auth.requestMatchers(HttpMethod.DELETE, USER_ENDPOINTS).hasAnyRole("USER", "ADMIN");
+                    auth.anyRequest().authenticated();
                 })
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .exceptionHandling(c -> c.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-
         return http.build();
     }
 

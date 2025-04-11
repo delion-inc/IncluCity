@@ -17,8 +17,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 public class ReviewRequest {
     @NotNull(message = "Rating is required")
-    @DecimalMin(value = "0.01", message = "Rating must be between 0.01 and 1.00")
-    @DecimalMax(value = "1.00", message = "Rating must be between 0.01 and 1.00")
+    @DecimalMin(value = "0.01", message = "Rating must be between 0.01 and 5.00")
+    @DecimalMax(value = "5.00", message = "Rating must be between 0.01 and 5.00")
     private BigDecimal rating;
     @NotNull
     private Long placeId;
