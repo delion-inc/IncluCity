@@ -21,7 +21,7 @@
                            references="users(id)"
                            deleteCascade="true"/>
             </column>
-            <column name="rating" type="INTEGER">
+            <column name="rating" type="DECIMAL(3,2)">
                 <constraints nullable="false"/>
             </column>
             <column name="comment" type="TEXT"/>
