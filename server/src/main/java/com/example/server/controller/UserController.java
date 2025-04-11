@@ -1,6 +1,6 @@
 package com.example.server.controller;
 
-import com.example.server.dto.UserDto;
+import com.example.server.dto.user.UserDto;
 import com.example.server.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

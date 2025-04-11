@@ -50,7 +50,7 @@ public class Place {
     @Column(name = "category", length = 50)
     private PlaceCategory category;
 
-    @Column(name = "overall_accessibility_score", precision = 5, scale = 2)
+    @Column(name = "overall_accessibility_score", precision = 3, scale = 2)
     private BigDecimal overallAccessibilityScore;
 
     @Column(name = "created_at", nullable = false)
@@ -58,6 +58,10 @@ public class Place {
 
     @Column(name = "updated_at")
     private Long updatedAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by_user_id", nullable = false)
+    private User createdBy;
 
     @PrePersist
     protected void onCreate() {
@@ -67,13 +71,9 @@ public class Place {
         updateScore();
     }
 
-    @PreUpdate
-    protected void onUpdate() {
+    public void updateScore() {
         updatedAt = System.currentTimeMillis();
-        updateScore();
-    }
-
-    private void updateScore() {
+        
         int totalFeatures = 4;
         int enabledFeatures = 0;
 
@@ -82,7 +82,7 @@ public class Place {
         if (brailleSignage) enabledFeatures++;
         if (accessibleToilets) enabledFeatures++;
 
-        double score = ((double) enabledFeatures / totalFeatures) * 100.0;
+        double score = ((double) enabledFeatures / totalFeatures);
         this.overallAccessibilityScore = BigDecimal.valueOf(score).setScale(2, RoundingMode.HALF_UP);
     }
 }

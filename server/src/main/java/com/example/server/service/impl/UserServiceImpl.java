@@ -1,6 +1,6 @@
 package com.example.server.service.impl;
 
-import com.example.server.dto.UserDto;
+import com.example.server.dto.user.UserDto;
 import com.example.server.entity.User;
 import com.example.server.exception.UserNotFound;
 import com.example.server.mapper.UserMapper;

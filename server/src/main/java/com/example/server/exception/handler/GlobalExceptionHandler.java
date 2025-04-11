@@ -2,6 +2,7 @@ package com.example.server.exception.handler;
 
 import com.example.server.exception.AuthenticationException;
 import com.example.server.exception.PlaceNotFound;
+import com.example.server.exception.ReviewNotFound;
 import com.example.server.exception.UserNotFound;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -37,7 +38,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler({UserNotFound.class, PlaceNotFound.class})
+    @ExceptionHandler({UserNotFound.class, PlaceNotFound.class, ReviewNotFound.class})
     public ResponseEntity<?> handleNotFoundException(RuntimeException e) {
         Map<String, String> response = new HashMap<>();
         response.put("message", e.getMessage());
@@ -73,19 +74,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<?> handleAccessDeniedException(AccessDeniedException e) {
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> handleIllegalArgumentException(IllegalArgumentException e) {
         Map<String, String> response = new HashMap<>();
-        response.put("message", "Access denied: insufficient permissions");
-        log.error("Access denied: {}", e.getMessage());
-        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleGenericException(Exception e) {
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "An unexpected error occurred");
-        log.error("Unexpected error: ", e);
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        response.put("message", "Illegal Argument: check your request");
+        log.error("Illegal argument: {}", e.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 } 

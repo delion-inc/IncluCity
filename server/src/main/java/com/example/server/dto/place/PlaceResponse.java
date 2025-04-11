@@ -1,5 +1,6 @@
 package com.example.server.dto.place;
 
+import com.example.server.dto.user.UserDto;
 import com.example.server.entity.PlaceCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,4 +27,5 @@ public class PlaceResponse {
     private BigDecimal overallAccessibilityScore;
     private Long createdAt;
     private Long updatedAt;
+    private UserDto createdBy;
 } 
