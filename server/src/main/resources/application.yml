@@ -11,6 +11,9 @@ spring:
   application:
     name: "server"
 
+app:
+  base-url: http://localhost:8080
+
 server:
   port: 8080
 

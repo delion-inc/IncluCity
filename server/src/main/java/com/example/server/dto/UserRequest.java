@@ -1,4 +1,4 @@
-package com.example.server.dto.auth;
+package com.example.server.dto;
 
 import com.example.server.enums.Role;
 import jakarta.validation.constraints.Email;
@@ -14,7 +14,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserRegistrationRequest {
+public class UserRequest {
     
     @Email(message = "Invalid email format")
     @NotBlank(message = "Email is required")
