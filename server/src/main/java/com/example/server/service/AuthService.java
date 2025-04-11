@@ -1,8 +1,8 @@
 package com.example.server.service;
 
-import com.example.server.dto.AuthRequest;
-import com.example.server.dto.AuthResponse;
-import com.example.server.dto.UserRequest;
+import com.example.server.dto.user.AuthRequest;
+import com.example.server.dto.user.AuthResponse;
+import com.example.server.dto.user.UserRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 public interface AuthService {

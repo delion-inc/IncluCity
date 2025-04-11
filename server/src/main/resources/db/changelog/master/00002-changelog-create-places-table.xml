@@ -33,6 +33,10 @@
                 <constraints nullable="false"/>
             </column>
             <column name="updated_at" type="BIGINT"/>
+            <column name="created_by_user_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_place_created_by_user" 
+                             referencedTableName="users" referencedColumnNames="id"/>
+            </column>
         </createTable>
     </changeSet>
 

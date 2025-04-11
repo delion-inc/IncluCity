@@ -59,6 +59,10 @@ public class Place {
     @Column(name = "updated_at")
     private Long updatedAt;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "created_by_user_id", nullable = false)
+    private User createdBy;
+
     @PrePersist
     protected void onCreate() {
         long now = System.currentTimeMillis();

@@ -1,8 +1,8 @@
 package com.example.server.service.impl;
 
-import com.example.server.dto.AuthRequest;
-import com.example.server.dto.AuthResponse;
-import com.example.server.dto.UserRequest;
+import com.example.server.dto.user.AuthRequest;
+import com.example.server.dto.user.AuthResponse;
+import com.example.server.dto.user.UserRequest;
 import com.example.server.entity.User;
 import com.example.server.enums.Role;
 import com.example.server.exception.AuthenticationException;

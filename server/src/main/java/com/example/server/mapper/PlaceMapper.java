@@ -3,13 +3,19 @@ package com.example.server.mapper;
 import com.example.server.dto.place.PlaceRequest;
 import com.example.server.dto.place.PlaceResponse;
 import com.example.server.dto.place.PlaceUpdateRequest;
+import com.example.server.dto.review.PlaceDto;
 import com.example.server.entity.Place;
+import com.example.server.entity.User;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor
 public class PlaceMapper {
 
-    public Place toPlace(PlaceRequest request) {
+    private final UserMapper userMapper;
+
+    public Place toPlace(PlaceRequest request, User createdBy) {
         return Place.builder()
                 .name(request.getName())
                 .address(request.getAddress())
@@ -20,12 +26,12 @@ public class PlaceMapper {
                 .brailleSignage(request.isBrailleSignage())
                 .accessibleToilets(request.isAccessibleToilets())
                 .category(request.getCategory())
+                .createdBy(createdBy)
                 .build();
     }
 
-    public PlaceResponse toPlaceResponse(Place place) {
-        return PlaceResponse.builder()
-                .id(place.getId())
+    public PlaceRequest toPlaceRequest(Place place) {
+        return PlaceRequest.builder()
                 .name(place.getName())
                 .address(place.getAddress())
                 .lat(place.getLat())
@@ -35,9 +41,6 @@ public class PlaceMapper {
                 .brailleSignage(place.isBrailleSignage())
                 .accessibleToilets(place.isAccessibleToilets())
                 .category(place.getCategory())
-                .overallAccessibilityScore(place.getOverallAccessibilityScore())
-                .createdAt(place.getCreatedAt())
-                .updatedAt(place.getUpdatedAt())
                 .build();
     }
 
@@ -81,5 +84,47 @@ public class PlaceMapper {
         if (request.getCategory() != null) {
             place.setCategory(request.getCategory());
         }
+    }
+
+    public PlaceUpdateRequest toPlaceUpdateResponse(Place place) {
+        return PlaceUpdateRequest.builder()
+                .name(place.getName())
+                .address(place.getAddress())
+                .lat(place.getLat())
+                .lon(place.getLon())
+                .wheelchairAccessible(place.isWheelchairAccessible())
+                .tactileElements(place.isTactileElements())
+                .brailleSignage(place.isBrailleSignage())
+                .accessibleToilets(place.isAccessibleToilets())
+                .category(place.getCategory())
+                .build();
+    }
+
+    public PlaceResponse toPlaceResponse(Place place) {
+        return PlaceResponse.builder()
+                .id(place.getId())
+                .name(place.getName())
+                .address(place.getAddress())
+                .lat(place.getLat())
+                .lon(place.getLon())
+                .wheelchairAccessible(place.isWheelchairAccessible())
+                .tactileElements(place.isTactileElements())
+                .brailleSignage(place.isBrailleSignage())
+                .accessibleToilets(place.isAccessibleToilets())
+                .category(place.getCategory())
+                .overallAccessibilityScore(place.getOverallAccessibilityScore())
+                .createdAt(place.getCreatedAt())
+                .updatedAt(place.getUpdatedAt())
+                .createdBy(userMapper.toUserDto(place.getCreatedBy()))
+                .build();
+    }
+
+    public PlaceDto toPlaceDto(Place place) {
+        return PlaceDto.builder()
+                .id(place.getId())
+                .name(place.getName())
+                .address(place.getAddress())
+                .category(place.getCategory())
+                .build();
     }
 } 

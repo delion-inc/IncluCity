@@ -1,8 +1,8 @@
 package com.example.server.controller;
 
-import com.example.server.dto.AuthRequest;
-import com.example.server.dto.AuthResponse;
-import com.example.server.dto.UserRequest;
+import com.example.server.dto.user.AuthRequest;
+import com.example.server.dto.user.AuthResponse;
+import com.example.server.dto.user.UserRequest;
 import com.example.server.service.AuthService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
