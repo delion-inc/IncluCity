@@ -64,6 +64,7 @@ public class PlaceServiceImpl implements PlaceService {
 
         placeMapper.updatePlaceFromUpdateRequest(place, request);
         Place updatedPlace = placeRepository.save(place);
+        updatedPlace.updateScore();
         return placeMapper.toPlaceResponse(updatedPlace);
     }
 
