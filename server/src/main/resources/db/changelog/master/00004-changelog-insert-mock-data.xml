@@ -206,7 +206,7 @@
         <insert tableName="reviews">
             <column name="place_id" value="1"/>
             <column name="user_id" value="1"/>
-            <column name="rating" value="0.95"/>
+            <column name="rating" value="3"/>
             <column name="comment" value="Чудовий центр з повним набором доступних функцій"/>
             <column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
             <column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
@@ -215,7 +215,7 @@
         <insert tableName="reviews">
             <column name="place_id" value="2"/>
             <column name="user_id" value="2"/>
-            <column name="rating" value="0.90"/>
+            <column name="rating" value="5"/>
             <column name="comment" value="Дуже зручний парк для всіх"/>
             <column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
             <column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
@@ -224,7 +224,7 @@
         <insert tableName="reviews">
             <column name="place_id" value="3"/>
             <column name="user_id" value="3"/>
-            <column name="rating" value="0.85"/>
+            <column name="rating" value="3"/>
             <column name="comment" value="Відмінне обладнання для адаптивного спорту"/>
             <column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
             <column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>

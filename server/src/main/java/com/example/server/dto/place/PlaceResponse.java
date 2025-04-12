@@ -25,6 +25,8 @@ public class PlaceResponse {
     private boolean accessibleToilets;
     private PlaceCategory category;
     private BigDecimal overallAccessibilityScore;
+    private Double averageRating;
+    private Integer countOfReviews;
     private Long createdAt;
     private Long updatedAt;
     private UserDto createdBy;

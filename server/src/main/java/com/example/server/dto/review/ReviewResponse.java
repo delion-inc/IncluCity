@@ -14,7 +14,7 @@ public class ReviewResponse {
     private Long id;
     private PlaceDto place;
     private UserDto user;
-    private Double rating;
+    private Integer rating;
     private String comment;
     private Long createdAt;
     private Long updatedAt;
