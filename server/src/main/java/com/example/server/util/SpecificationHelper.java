@@ -1,66 +1,76 @@
 package com.example.server.util;
 
-import com.example.server.dto.PlaceFilterDto;
+import com.example.server.dto.place.PlaceFilterDto;
 import com.example.server.entity.Place;
 import com.example.server.entity.PlaceCategory;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.util.StringUtils;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 public class SpecificationHelper {
     
+    private static final Set<String> VALID_ACCESSIBILITY_FEATURES = Set.of(
+            "WHEELCHAIR_ACCESSIBLE",
+            "TACTILE_ELEMENTS",
+            "BRAILLE_SIGNAGE",
+            "ACCESSIBLE_TOILETS"
+    );
+
     public static Specification<Place> buildSpecification(PlaceFilterDto filter) {
         if (filter == null) {
             return Specification.where(null);
         }
 
         return Specification.where(hasCategory(filter.getCategory()))
-                .and(isWheelchairAccessible(filter.getWheelchairAccessible()))
-                .and(hasTactileElements(filter.getTactileElements()))
-                .and(hasBrailleSignage(filter.getBrailleSignage()))
-                .and(hasAccessibleToilets(filter.getAccessibleToilets()));
-    }
-    
-    public static Specification<Place> hasCategory(PlaceCategory category) {
-        return (root, query, criteriaBuilder) -> {
-            if (category == null) {
-                return criteriaBuilder.conjunction();
-            }
-            return criteriaBuilder.equal(root.get("category"), category);
-        };
+                .and(hasAccessibilityFeatures(filter.getAccessibility()));
     }
 
-    public static Specification<Place> isWheelchairAccessible(Boolean wheelchairAccessible) {
-        return (root, query, criteriaBuilder) -> {
-            if (wheelchairAccessible == null) {
-                return criteriaBuilder.conjunction();
-            }
-            return criteriaBuilder.equal(root.get("wheelchairAccessible"), wheelchairAccessible);
-        };
+    private static Specification<Place> hasCategory(String categories) {
+        if (!StringUtils.hasText(categories)) {
+            return Specification.where(null);
+        }
+
+        List<PlaceCategory> categoryList = Arrays.stream(categories.split(","))
+                .map(String::trim)
+                .map(PlaceCategory::valueOf)
+                .toList();
+
+        return (root, query, criteriaBuilder) ->
+                root.get("category").in(categoryList);
     }
 
-    public static Specification<Place> hasTactileElements(Boolean tactileElements) {
-        return (root, query, criteriaBuilder) -> {
-            if (tactileElements == null) {
-                return criteriaBuilder.conjunction();
-            }
-            return criteriaBuilder.equal(root.get("tactileElements"), tactileElements);
-        };
-    }
+    private static Specification<Place> hasAccessibilityFeatures(String accessibility) {
+        if (!StringUtils.hasText(accessibility)) {
+            return Specification.where(null);
+        }
 
-    public static Specification<Place> hasBrailleSignage(Boolean brailleSignage) {
-        return (root, query, criteriaBuilder) -> {
-            if (brailleSignage == null) {
-                return criteriaBuilder.conjunction();
-            }
-            return criteriaBuilder.equal(root.get("brailleSignage"), brailleSignage);
-        };
-    }
+        List<String> features = Arrays.stream(accessibility.split(","))
+                .map(String::trim)
+                .toList();
 
-    public static Specification<Place> hasAccessibleToilets(Boolean accessibleToilets) {
-        return (root, query, criteriaBuilder) -> {
-            if (accessibleToilets == null) {
-                return criteriaBuilder.conjunction();
-            }
-            return criteriaBuilder.equal(root.get("accessibleToilets"), accessibleToilets);
-        };
+        if (!VALID_ACCESSIBILITY_FEATURES.containsAll(features)) {
+            return (root, query, criteriaBuilder) -> criteriaBuilder.disjunction();
+        }
+
+        Specification<Place> spec = Specification.where(null);
+
+        for (String feature : features) {
+            spec = switch (feature) {
+                case "WHEELCHAIR_ACCESSIBLE" -> spec.and((root, query, criteriaBuilder) ->
+                        criteriaBuilder.isTrue(root.get("wheelchairAccessible")));
+                case "TACTILE_ELEMENTS" -> spec.and((root, query, criteriaBuilder) ->
+                        criteriaBuilder.isTrue(root.get("tactileElements")));
+                case "BRAILLE_SIGNAGE" -> spec.and((root, query, criteriaBuilder) ->
+                        criteriaBuilder.isTrue(root.get("brailleSignage")));
+                case "ACCESSIBLE_TOILETS" -> spec.and((root, query, criteriaBuilder) ->
+                        criteriaBuilder.isTrue(root.get("accessibleToilets")));
+                default -> spec;
+            };
+        }
+
+        return spec;
     }
 } 
