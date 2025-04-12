@@ -13,7 +13,23 @@ export const placesService = {
    * Get all places with optional filtering
    */
   getAllPlaces: async (params?: GetPlacesParams): Promise<Place[]> => {
-    const response = await apiClient.get<Place[]>(`${API_PLACES_URL}/all`, { params });
+    const queryParams: Record<string, string> = {};
+
+    if (params?.categories && params.categories.length > 0) {
+      params.categories.forEach(() => {
+        queryParams[`category`] = params.categories?.join(",") || "";
+      });
+    }
+
+    if (params?.accessibility && params.accessibility.length > 0) {
+      params.accessibility.forEach(() => {
+        queryParams[`accessibility`] = params.accessibility?.join(",") || "";
+      });
+    }
+
+    const response = await apiClient.get<Place[]>(`${API_PLACES_URL}/all`, {
+      params: queryParams,
+    });
 
     return response.data;
   },
@@ -41,7 +57,7 @@ export const placesService = {
    */
   updatePlace: async (id: number | string, data: UpdatePlaceRequest): Promise<Place> => {
     const response = await apiClient.put<Place>(`${API_PLACES_URL}/${id}`, data);
-    
+
     return response.data;
   },
 
@@ -51,4 +67,4 @@ export const placesService = {
   deletePlace: async (id: number | string): Promise<void> => {
     await apiClient.delete(`${API_PLACES_URL}/${id}`);
   },
-}; 
+};

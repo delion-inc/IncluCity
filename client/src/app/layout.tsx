@@ -5,6 +5,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/components/providers/auth-provider";
 import { QueryProvider } from "@/components/providers/query-provider";
+import { FilterProvider } from "@/lib/contexts/filter.context";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="uk">
       <body className={inter.className}>
         <QueryProvider>
-          <AuthProvider>{children}</AuthProvider>
+          <FilterProvider>
+            <AuthProvider>{children}</AuthProvider>
+          </FilterProvider>
         </QueryProvider>
       </body>
     </html>

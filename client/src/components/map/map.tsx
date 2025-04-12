@@ -1,10 +1,11 @@
 "use client";
 
-import { MapContainer, TileLayer, Marker } from "react-leaflet";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { Icon } from "leaflet";
 
 import "leaflet/dist/leaflet.css";
 import { usePlaces } from "@/lib/hooks/use-places";
+import { useFilters } from "@/lib/contexts/filter.context";
 
 const customIcon = new Icon({
   iconUrl: "/map-pin.svg",
@@ -14,20 +15,34 @@ const customIcon = new Icon({
 
 export default function Map() {
   const center = {
-    lat: 49.83826000,
-    lng: 24.02324000,
+    lat: 49.83826,
+    lng: 24.02324,
   };
 
-  const { data: places, error } = usePlaces();
+  const { selectedCategories, selectedAccessibility } = useFilters();
+  const {
+    data: places,
+    isLoading,
+    error,
+  } = usePlaces({
+    categories: selectedCategories.length > 0 ? selectedCategories : undefined,
+    accessibility: selectedAccessibility.length > 0 ? selectedAccessibility : undefined,
+  });
 
   return (
     <div className="h-full w-full relative" style={{ zIndex: 0 }}>
+      {isLoading && (
+        <div className="absolute top-4 right-4 bg-white p-2 rounded-md shadow-md z-10">
+          Завантаження...
+        </div>
+      )}
+
       {error && (
         <div className="absolute top-4 right-4 bg-red-100 p-2 rounded-md shadow-md z-10">
           Помилка при завантаженні даних
         </div>
       )}
-      
+
       <MapContainer
         center={center}
         zoom={13}
@@ -37,19 +52,13 @@ export default function Map() {
         className="z-0"
       >
         <TileLayer
-          // attribution='<a href="https://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='<a href="https://jawg.io" title="Tiles Courtesy of Jawg Maps" target="_blank">&copy; <b>Jawg</b>Maps</a> &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://tile.jawg.io/jawg-streets/{z}/{x}/{y}{r}.png?access-token=yMPPhITp4JDWFD3N3AqU94SuPGKVWnLJD4jdaO0t9LbKLsKiu97If4V2FSx057QT"
         />
-        
+
         {places?.map((place) => (
-          <Marker 
-            key={place.id}
-            position={{ lat: place.lat, lng: place.lon }}
-            icon={customIcon}
-          >
-            {/* <Popup>
+          <Marker key={place.id} position={{ lat: place.lat, lng: place.lon }} icon={customIcon}>
+            <Popup>
               <div>
                 <h3 className="font-semibold">{place.name}</h3>
                 <p className="text-sm">{place.address}</p>
@@ -60,11 +69,11 @@ export default function Map() {
                     {place.wheelchairAccessible && <li>Доступно для інвалідних візків</li>}
                     {place.tactileElements && <li>Тактильні елементи</li>}
                     {place.brailleSignage && <li>Позначення шрифтом Брайля</li>}
-                    {place.accessibleToilets && <li>Доступні туалети</li>}
+                    {place.accessibleToilets && <li>Адаптовані туалети</li>}
                   </ul>
                 </div>
               </div>
-            </Popup> */}
+            </Popup>
           </Marker>
         ))}
       </MapContainer>

@@ -51,9 +51,7 @@ export function usePlaceById(
 /**
  * Hook for creating a new place
  */
-export function useCreatePlace(
-  options?: UseMutationOptions<Place, Error, CreatePlaceRequest>,
-) {
+export function useCreatePlace(options?: UseMutationOptions<Place, Error, CreatePlaceRequest>) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -90,9 +88,7 @@ export function useUpdatePlace(
 /**
  * Hook for deleting a place
  */
-export function useDeletePlace(
-  options?: UseMutationOptions<void, Error, number | string>,
-) {
+export function useDeletePlace(options?: UseMutationOptions<void, Error, number | string>) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -105,4 +101,4 @@ export function useDeletePlace(
     },
     ...options,
   });
-} 
+}

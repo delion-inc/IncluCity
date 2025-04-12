@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 import SidebarFilters from "./sidebar-filters";
-import { SidebarToggle, FilterApplyButton } from "./sidebar-controls";
+import { SidebarToggle, FilterControlButton } from "./sidebar-controls";
 
 interface SidebarProps {
   onCollapsedChange?: (collapsed: boolean) => void;
@@ -55,7 +55,7 @@ export default function Sidebar({ onCollapsedChange }: SidebarProps) {
           </div>
 
           <div className="p-4 border-t border-gray-200">
-            <FilterApplyButton />
+            <FilterControlButton />
           </div>
         </div>
       </aside>
