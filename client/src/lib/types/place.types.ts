@@ -63,6 +63,6 @@ export interface CreatePlaceRequest {
 export type UpdatePlaceRequest = CreatePlaceRequest;
 
 export interface GetPlacesParams {
-  category?: PlaceCategory;
-  accessibility?: AccessibilityFeature;
-} 
+  categories?: PlaceCategory[];
+  accessibility?: AccessibilityFeature[];
+}
