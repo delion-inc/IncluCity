@@ -1,5 +1,6 @@
 package com.example.server.controller;
 
+import com.example.server.dto.PlaceFilterDto;
 import com.example.server.dto.place.PlaceRequest;
 import com.example.server.dto.place.PlaceResponse;
 import com.example.server.dto.place.PlaceUpdateRequest;
@@ -15,8 +16,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,17 +25,19 @@ import java.util.List;
 @RequiredArgsConstructor
 @Tag(name = "Places", description = "Places management API")
 public class PlaceController {
-
     private final PlaceService placeService;
 
-    @Operation(summary = "Get all places", description = "Returns a list of all places")
+    @Operation(summary = "Get all places", description = "Returns a list of all places with optional filters")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved places"),
             @ApiResponse(responseCode = "401", description = "Not authenticated")
     })
     @GetMapping("/all")
-    public List<PlaceResponse> getAllPlaces() {
-        return placeService.getAllPlaces();
+    public ResponseEntity<List<PlaceResponse>> getAllPlaces(
+            @Parameter(description = "Filter parameters")
+            @ModelAttribute PlaceFilterDto filter
+    ) {
+        return ResponseEntity.ok(placeService.getAllPlaces(filter));
     }
 
     @Operation(summary = "Get place by ID", description = "Returns a place by its ID")
@@ -45,11 +46,11 @@ public class PlaceController {
             @ApiResponse(responseCode = "404", description = "Place not found")
     })
     @GetMapping("/{id}")
-    public PlaceResponse getPlaceById(
+    public ResponseEntity<PlaceResponse> getPlaceById(
             @Parameter(description = "ID of the place to retrieve")
             @PathVariable Long id
     ) {
-        return placeService.getPlaceById(id);
+        return ResponseEntity.ok(placeService.getPlaceById(id));
     }
 
     @Operation(summary = "Create new place", description = "Creates a new place")
@@ -60,33 +61,31 @@ public class PlaceController {
     })
     @PostMapping
     @PreAuthorize("hasRole('ROLE_USER')")
-    public PlaceResponse createPlace(@Valid @RequestBody PlaceRequest request) {
-        return placeService.createPlace(request);
+    public ResponseEntity<PlaceResponse> createPlace(@Valid @RequestBody PlaceRequest request) {
+        return ResponseEntity.ok(placeService.createPlace(request));
     }
 
-    @Operation(summary = "Update place", description = "Updates an existing place. All fields are optional - only provided fields will be updated. Requires ADMIN role.")
+    @Operation(summary = "Update place", description = "Updates an existing place")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully updated place"),
             @ApiResponse(responseCode = "400", description = "Invalid input"),
             @ApiResponse(responseCode = "401", description = "Not authenticated"),
-            @ApiResponse(responseCode = "403", description = "Access denied - requires ADMIN role"),
             @ApiResponse(responseCode = "404", description = "Place not found")
     })
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ROLE_USER')")
-    public PlaceResponse updatePlace(
+    public ResponseEntity<PlaceResponse> updatePlace(
             @Parameter(description = "ID of the place to update")
             @PathVariable Long id,
             @Valid @RequestBody PlaceUpdateRequest request
     ) {
-        return placeService.updatePlace(id, request);
+        return ResponseEntity.ok(placeService.updatePlace(id, request));
     }
 
-    @Operation(summary = "Delete place", description = "Deletes an existing place. Requires ADMIN role.")
+    @Operation(summary = "Delete place", description = "Deletes an existing place")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Successfully deleted place"),
             @ApiResponse(responseCode = "401", description = "Not authenticated"),
-            @ApiResponse(responseCode = "403", description = "Access denied - requires ADMIN role"),
             @ApiResponse(responseCode = "404", description = "Place not found")
     })
     @DeleteMapping("/{id}")
