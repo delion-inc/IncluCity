@@ -1,6 +1,6 @@
 package com.example.server.controller;
 
-import com.example.server.dto.PlaceFilterDto;
+import com.example.server.dto.place.PlaceFilterDto;
 import com.example.server.dto.place.PlaceRequest;
 import com.example.server.dto.place.PlaceResponse;
 import com.example.server.dto.place.PlaceUpdateRequest;
