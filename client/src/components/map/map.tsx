@@ -42,7 +42,7 @@ export default function Map() {
   return (
     <div className="h-full w-full relative" style={{ zIndex: 0 }}>
       {error && (
-        <div className="absolute top-4 right-4 bg-red-100 p-2 rounded-md shadow-md z-10">
+        <div className="absolute top-20 right-4 bg-red-100 p-2 rounded-md shadow-md z-10">
           Помилка при завантаженні даних
         </div>
       )}

@@ -27,7 +27,6 @@ import { cn } from "@/lib/utils";
 import { PlaceCategory } from "@/lib/types/place.types";
 import { Place } from "@/lib/types/place.types";
 
-// Мапування категорій та їх іконок
 export const categoryConfig = {
   [PlaceCategory.CAFE]: { label: "Кафе", icon: <Coffee className="h-4 w-4" /> },
   [PlaceCategory.RESTAURANT]: { label: "Ресторани", icon: <Utensils className="h-4 w-4" /> },
@@ -60,9 +59,10 @@ export const categoryConfig = {
 
 interface MapPlacePopupProps {
   place: Place;
+  onDetailsClick?: () => void;
 }
 
-export default function MapPlacePopup({ place }: MapPlacePopupProps) {
+export default function MapPlacePopup({ place, onDetailsClick }: MapPlacePopupProps) {
   return (
     <Card className="border-0 shadow-none p-0" style={{ width: "280px", maxWidth: "100%" }}>
       <CardHeader className="p-3 pb-2">
@@ -136,8 +136,8 @@ export default function MapPlacePopup({ place }: MapPlacePopupProps) {
         <Button
           variant="default"
           size="sm"
-          className="w-full mt-2 text-xs"
-          onClick={() => (window.location.href = `/places/${place.id}`)}
+          className="w-full mt-2 text-xs cursor-pointer"
+          onClick={onDetailsClick}
         >
           Деталі
           <ArrowRight className="h-3 w-3 ml-1" />

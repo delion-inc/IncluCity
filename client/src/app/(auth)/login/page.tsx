@@ -1,10 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AxiosError } from "axios";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
+import { ArrowLeft } from "lucide-react";
 
 import { useAuth } from "@/lib/contexts/auth.context";
 import { Alert, AlertDescription } from "@/components/ui/alert";
@@ -30,6 +33,7 @@ import { loginSchema, LoginFormData } from "@/lib/validations/auth";
 
 export default function LoginPage() {
   const { login } = useAuth();
+  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<LoginFormData>({
@@ -56,6 +60,10 @@ export default function LoginPage() {
       }
     }
   };
+  
+  const handleGoBack = () => {
+    router.back();
+  };
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-blue-50 to-purple-50">
@@ -71,6 +79,16 @@ export default function LoginPage() {
         <div className="absolute bottom-0 left-10 w-[70%] h-32 bg-blue-900/10 rounded-t-3xl transform skew-x-12"></div>
         <div className="absolute bottom-0 right-10 w-[60%] h-24 bg-blue-800/10 rounded-t-3xl transform -skew-x-6"></div>
       </div>
+
+      <Button 
+        variant="ghost" 
+        size="sm" 
+        className="absolute top-4 left-4 z-20 hover:bg-primary hover:text-white cursor-pointer text-gray-700"
+        onClick={handleGoBack}
+      >
+        <ArrowLeft className="h-5 w-5 mr-1" />
+        Назад
+      </Button>
 
       <div className="relative z-10 min-h-screen flex flex-col md:flex-row items-center justify-center p-4 md:p-8 gap-8">
         <div className="hidden md:flex flex-col w-full max-w-md items-center md:items-start justify-center space-y-6">
