@@ -126,7 +126,7 @@ public class PlaceMapper {
                 .countOfReviews(countOfReviews)
                 .createdAt(place.getCreatedAt())
                 .updatedAt(place.getUpdatedAt())
-                .createdBy(userMapper.toUserDto(place.getCreatedBy()))
+                .createdBy(userMapper.toUserPlaceDto(place.getCreatedBy()))
                 .build();
     }
 
