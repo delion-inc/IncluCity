@@ -3,6 +3,9 @@
 import { MapContainer, TileLayer, ZoomControl } from "react-leaflet";
 import { useEffect } from "react";
 import "leaflet/dist/leaflet.css";
+import "leaflet.markercluster/dist/MarkerCluster.css";
+import "leaflet.markercluster/dist/MarkerCluster.Default.css";
+import MarkerClusterGroup from "react-leaflet-cluster";
 
 import { usePlaces } from "@/lib/hooks/use-places";
 import { useFilters } from "@/lib/contexts/filter.context";
@@ -61,7 +64,14 @@ export default function Map() {
           url="https://tile.jawg.io/jawg-streets/{z}/{x}/{y}{r}.png?access-token=yMPPhITp4JDWFD3N3AqU94SuPGKVWnLJD4jdaO0t9LbKLsKiu97If4V2FSx057QT"
         />
 
-        {places?.map((place) => <MapPlaceMarker key={place.id} place={place} />)}
+        <MarkerClusterGroup
+          chunkedLoading
+          spiderfyOnMaxZoom={true}
+          disableClusteringAtZoom={16}
+          maxClusterRadius={60}
+        >
+          {places?.map((place) => <MapPlaceMarker key={place.id} place={place} />)}
+        </MarkerClusterGroup>
       </MapContainer>
     </div>
   );
