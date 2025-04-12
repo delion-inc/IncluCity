@@ -201,34 +201,439 @@
             <column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
             <column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
             <column name="created_by_user_id" value="1"/>
-        </insert>
+		</insert>
+		
+		<!--made by yura -->
+		<insert tableName="places">
+			<column name="name" value="Парк імені Івана Франка"/>
+			<column name="address" value="вул. Університетська, Львів"/>
+			<column name="lat" value="49.8411"/>
+			<column name="lon" value="24.0226"/>
+			<column name="category" value="PARK"/>
+			<column name="wheelchair_accessible" value="1"/>
+			<column name="tactile_elements" value="1"/>
+			<column name="braille_signage" value="0"/>
+			<column name="accessible_toilets" value="1"/>
+			<column name="overall_accessibility_score" value="0.75"/>
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="created_by_user_id" value="2"/>
+		</insert>
 
-        <insert tableName="reviews">
-            <column name="place_id" value="1"/>
-            <column name="user_id" value="1"/>
-            <column name="rating" value="3"/>
-            <column name="comment" value="Чудовий центр з повним набором доступних функцій"/>
-            <column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
-            <column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
-        </insert>
+		<insert tableName="places">
+			<column name="name" value="Музей історії релігії"/>
+			<column name="address" value="пл. Музейна, 1, Львів"/>
+			<column name="lat" value="49.8410"/>
+			<column name="lon" value="24.0334"/>
+			<column name="category" value="CINEMA"/>
+			<column name="wheelchair_accessible" value="1"/>
+			<column name="tactile_elements" value="0"/>
+			<column name="braille_signage" value="1"/>
+			<column name="accessible_toilets" value="1"/>
+			<column name="overall_accessibility_score" value="0.75"/>
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="created_by_user_id" value="2"/>
+		</insert>
 
-        <insert tableName="reviews">
-            <column name="place_id" value="2"/>
-            <column name="user_id" value="2"/>
-            <column name="rating" value="5"/>
-            <column name="comment" value="Дуже зручний парк для всіх"/>
-            <column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
-            <column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
-        </insert>
+		<insert tableName="places">
+			<column name="name" value="Інклюзивна бібліотека"/>
+			<column name="address" value="вул. Драгоманова, 5, Львів"/>
+			<column name="lat" value="49.8382"/>
+			<column name="lon" value="24.0312"/>
+			<column name="category" value="LIBRARY"/>
+			<column name="wheelchair_accessible" value="1"/>
+			<column name="tactile_elements" value="1"/>
+			<column name="braille_signage" value="1"/>
+			<column name="accessible_toilets" value="1"/>
+			<column name="overall_accessibility_score" value="1.0"/>
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="created_by_user_id" value="3"/>
+		</insert>
 
-        <insert tableName="reviews">
-            <column name="place_id" value="3"/>
-            <column name="user_id" value="3"/>
-            <column name="rating" value="3"/>
-            <column name="comment" value="Відмінне обладнання для адаптивного спорту"/>
-            <column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
-            <column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
-        </insert>
+		<insert tableName="places">
+			<column name="name" value="ТЦ Forum Lviv"/>
+			<column name="address" value="вул. Під Дубом, 7Б, Львів"/>
+			<column name="lat" value="49.8481"/>
+			<column name="lon" value="24.0318"/>
+			<column name="category" value="SHOP"/>
+			<column name="wheelchair_accessible" value="1"/>
+			<column name="tactile_elements" value="0"/>
+			<column name="braille_signage" value="1"/>
+			<column name="accessible_toilets" value="1"/>
+			<column name="overall_accessibility_score" value="0.75"/>
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="created_by_user_id" value="1"/>
+		</insert>
+
+		<insert tableName="places">
+			<column name="name" value="Кав’ярня 'Добрий друг'"/>
+			<column name="address" value="вул. Зеленська, 15, Львів"/>
+			<column name="lat" value="49.8256"/>
+			<column name="lon" value="24.0321"/>
+			<column name="category" value="CAFE"/>
+			<column name="wheelchair_accessible" value="1"/>
+			<column name="tactile_elements" value="0"/>
+			<column name="braille_signage" value="0"/>
+			<column name="accessible_toilets" value="1"/>
+			<column name="overall_accessibility_score" value="0.50"/>
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="created_by_user_id" value="3"/>
+		</insert>
+
+		<insert tableName="places">
+			<column name="name" value="Центр реабілітації 'Нове життя'"/>
+			<column name="address" value="вул. Мечникова, 10, Львів"/>
+			<column name="lat" value="49.8392"/>
+			<column name="lon" value="24.0422"/>
+			<column name="category" value="MEDICAL"/>
+			<column name="wheelchair_accessible" value="1"/>
+			<column name="tactile_elements" value="1"/>
+			<column name="braille_signage" value="1"/>
+			<column name="accessible_toilets" value="1"/>
+			<column name="overall_accessibility_score" value="1.0"/>
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="created_by_user_id" value="2"/>
+		</insert>
+
+		<insert tableName="places">
+			<column name="name" value="Супермаркет 'Сільпо'"/>
+			<column name="address" value="вул. Князя Романа, 12, Львів"/>
+			<column name="lat" value="49.8375"/>
+			<column name="lon" value="24.0342"/>
+			<column name="category" value="SHOP"/>
+			<column name="wheelchair_accessible" value="1"/>
+			<column name="tactile_elements" value="0"/>
+			<column name="braille_signage" value="0"/>
+			<column name="accessible_toilets" value="0"/>
+			<column name="overall_accessibility_score" value="0.25"/>
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="created_by_user_id" value="3"/>
+		</insert>
+
+		<insert tableName="places">
+			<column name="name" value="Кафе 'Без бар’єрів'"/>
+			<column name="address" value="вул. Личаківська, 8, Львів"/>
+			<column name="lat" value="49.8397"/>
+			<column name="lon" value="24.0430"/>
+			<column name="category" value="CAFE"/>
+			<column name="wheelchair_accessible" value="1"/>
+			<column name="tactile_elements" value="1"/>
+			<column name="braille_signage" value="0"/>
+			<column name="accessible_toilets" value="1"/>
+			<column name="overall_accessibility_score" value="0.75"/>
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="created_by_user_id" value="2"/>
+		</insert>
+
+		<insert tableName="places">
+			<column name="name" value="Інклюзивна спортивна школа"/>
+			<column name="address" value="вул. Городоцька, 85, Львів"/>
+			<column name="lat" value="49.8401"/>
+			<column name="lon" value="24.0089"/>
+			<column name="category" value="SPORT"/>
+			<column name="wheelchair_accessible" value="1"/>
+			<column name="tactile_elements" value="1"/>
+			<column name="braille_signage" value="1"/>
+			<column name="accessible_toilets" value="1"/>
+			<column name="overall_accessibility_score" value="1.0"/>
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="created_by_user_id" value="1"/>
+		</insert>
+
+		<insert tableName="places">
+			<column name="name" value="Інклюзивний дитячий садок 'Сонечко'"/>
+			<column name="address" value="вул. Промислова, 45, Львів"/>
+			<column name="lat" value="49.8532"/>
+			<column name="lon" value="24.0412"/>
+			<column name="category" value="EDUCATION"/>
+			<column name="wheelchair_accessible" value="1"/>
+			<column name="tactile_elements" value="0"/>
+			<column name="braille_signage" value="1"/>
+			<column name="accessible_toilets" value="0"/>
+			<column name="overall_accessibility_score" value="0.5"/>
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="created_by_user_id" value="2"/>
+		</insert>
+		
+		<insert tableName="places">
+			<column name="name" value="Львівська філармонія"/>
+			<column name="address" value="вул. Чайковського, 7, Львів"/>
+			<column name="lat" value="49.8385"/>
+			<column name="lon" value="24.0259"/>
+			<column name="category" value="CULTURAL_CENTER"/>
+			<column name="wheelchair_accessible" value="1"/>
+			<column name="tactile_elements" value="0"/>
+			<column name="braille_signage" value="0"/>
+			<column name="accessible_toilets" value="1"/>
+			<column name="overall_accessibility_score" value="0.5"/>
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="created_by_user_id" value="1"/>
+		</insert>
+
+		<insert tableName="places">
+			<column name="name" value="Кінотеатр 'Планета Кіно'"/>
+			<column name="address" value="вул. Стрийська, 30, Львів"/>
+			<column name="lat" value="49.8156"/>
+			<column name="lon" value="24.0182"/>
+			<column name="category" value="CINEMA"/>
+			<column name="wheelchair_accessible" value="1"/>
+			<column name="tactile_elements" value="0"/>
+			<column name="braille_signage" value="1"/>
+			<column name="accessible_toilets" value="1"/>
+			<column name="overall_accessibility_score" value="0.75"/>
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="created_by_user_id" value="3"/>
+		</insert>
+
+		<insert tableName="places">
+			<column name="name" value="Інклюзивний простір 'Можливості'"/>
+			<column name="address" value="вул. Замарстинівська, 55, Львів"/>
+			<column name="lat" value="49.8539"/>
+			<column name="lon" value="24.0323"/>
+			<column name="category" value="COMMUNITY_CENTER"/>
+			<column name="wheelchair_accessible" value="1"/>
+			<column name="tactile_elements" value="1"/>
+			<column name="braille_signage" value="1"/>
+			<column name="accessible_toilets" value="1"/>
+			<column name="overall_accessibility_score" value="1.0"/>
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="created_by_user_id" value="2"/>
+		</insert>
+
+		<insert tableName="places">
+			<column name="name" value="ЦНАП м. Львова"/>
+			<column name="address" value="пл. Ринок, 1, Львів"/>
+			<column name="lat" value="49.8419"/>
+			<column name="lon" value="24.0315"/>
+			<column name="category" value="GOVERNMENT"/>
+			<column name="wheelchair_accessible" value="1"/>
+			<column name="tactile_elements" value="1"/>
+			<column name="braille_signage" value="0"/>
+			<column name="accessible_toilets" value="1"/>
+			<column name="overall_accessibility_score" value="0.75"/>
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="created_by_user_id" value="1"/>
+		</insert>
+
+		<insert tableName="places">
+			<column name="name" value="Університетська лікарня Львова"/>
+			<column name="address" value="вул. Пекарська, 54, Львів"/>
+			<column name="lat" value="49.8372"/>
+			<column name="lon" value="24.0457"/>
+			<column name="category" value="MEDICAL"/>
+			<column name="wheelchair_accessible" value="1"/>
+			<column name="tactile_elements" value="1"/>
+			<column name="braille_signage" value="1"/>
+			<column name="accessible_toilets" value="1"/>
+			<column name="overall_accessibility_score" value="1.0"/>
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="created_by_user_id" value="2"/>
+		</insert>
+		
+		<insert tableName="places">
+			<column name="name" value="Інклюзивна бібліотека ім. Івана Франка"/>
+			<column name="address" value="вул. Князя Романа, 6, Львів"/>
+			<column name="lat" value="49.8382"/>
+			<column name="lon" value="24.0301"/>
+			<column name="category" value="LIBRARY"/>
+			<column name="wheelchair_accessible" value="1"/>
+			<column name="tactile_elements" value="1"/>
+			<column name="braille_signage" value="1"/>
+			<column name="accessible_toilets" value="1"/>
+			<column name="overall_accessibility_score" value="1.0"/>
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="created_by_user_id" value="3"/>
+		</insert>
+
+		<insert tableName="places">
+			<column name="name" value="Міський інклюзивний парк"/>
+			<column name="address" value="вул. Виговського, 34, Львів"/>
+			<column name="lat" value="49.8240"/>
+			<column name="lon" value="24.0050"/>
+			<column name="category" value="PARK"/>
+			<column name="wheelchair_accessible" value="1"/>
+			<column name="tactile_elements" value="0"/>
+			<column name="braille_signage" value="0"/>
+			<column name="accessible_toilets" value="1"/>
+			<column name="overall_accessibility_score" value="0.5"/>
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="created_by_user_id" value="3"/>
+		</insert>
+
+		<insert tableName="places">
+			<column name="name" value="Спорткомплекс 'Інваспорт'"/>
+			<column name="address" value="вул. Липова Алея, 5, Львів"/>
+			<column name="lat" value="49.8277"/>
+			<column name="lon" value="24.0444"/>
+			<column name="category" value="SPORT"/>
+			<column name="wheelchair_accessible" value="1"/>
+			<column name="tactile_elements" value="1"/>
+			<column name="braille_signage" value="0"/>
+			<column name="accessible_toilets" value="1"/>
+			<column name="overall_accessibility_score" value="0.75"/>
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="created_by_user_id" value="2"/>
+		</insert>
+
+		<insert tableName="places">
+			<column name="name" value="Інклюзивна кав’ярня 'ДоступноSpace'"/>
+			<column name="address" value="вул. Героїв УПА, 73, Львів"/>
+			<column name="lat" value="49.8303"/>
+			<column name="lon" value="24.0128"/>
+			<column name="category" value="CAFE"/>
+			<column name="wheelchair_accessible" value="1"/>
+			<column name="tactile_elements" value="1"/>
+			<column name="braille_signage" value="0"/>
+			<column name="accessible_toilets" value="0"/>
+			<column name="overall_accessibility_score" value="0.5"/>
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="created_by_user_id" value="1"/>
+		</insert>
+
+		<insert tableName="places">
+			<column name="name" value="Школа з інклюзивним навчанням №98"/>
+			<column name="address" value="вул. Шевченка, 350, Львів"/>
+			<column name="lat" value="49.8621"/>
+			<column name="lon" value="24.0024"/>
+			<column name="category" value="EDUCATION"/>
+			<column name="wheelchair_accessible" value="1"/>
+			<column name="tactile_elements" value="1"/>
+			<column name="braille_signage" value="1"/>
+			<column name="accessible_toilets" value="1"/>
+			<column name="overall_accessibility_score" value="1.0"/>
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="created_by_user_id" value="1"/>
+		</insert>
+		
+		<insert tableName="places">
+			<column name="name" value="Музей інклюзії 'Відчуй'" />
+			<column name="address" value="вул. Драгоманова, 42, Львів" />
+			<column name="lat" value="49.8388" />
+			<column name="lon" value="24.0357" />
+			<column name="category" value="CINEMA" />
+			<column name="wheelchair_accessible" value="1" />
+			<column name="tactile_elements" value="1" />
+			<column name="braille_signage" value="1" />
+			<column name="accessible_toilets" value="0" />
+			<column name="overall_accessibility_score" value="0.75" />
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000" />
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000" />
+			<column name="created_by_user_id" value="2" />
+		</insert>
+
+		<insert tableName="places">
+			<column name="name" value="Львівська інклюзивна галерея" />
+			<column name="address" value="пл. Ринок, 1, Львів" />
+			<column name="lat" value="49.8411" />
+			<column name="lon" value="24.0315" />
+			<column name="category" value="COMMUNITY_CENTER" />
+			<column name="wheelchair_accessible" value="1" />
+			<column name="tactile_elements" value="0" />
+			<column name="braille_signage" value="0" />
+			<column name="accessible_toilets" value="1" />
+			<column name="overall_accessibility_score" value="0.5" />
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000" />
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000" />
+			<column name="created_by_user_id" value="2" />
+		</insert>
+
+		<insert tableName="places">
+			<column name="name" value="Інклюзивний спортзал 'Разом'" />
+			<column name="address" value="вул. Замарстинівська, 134, Львів" />
+			<column name="lat" value="49.8659" />
+			<column name="lon" value="24.0194" />
+			<column name="category" value="SPORT" />
+			<column name="wheelchair_accessible" value="1" />
+			<column name="tactile_elements" value="0" />
+			<column name="braille_signage" value="0" />
+			<column name="accessible_toilets" value="1" />
+			<column name="overall_accessibility_score" value="0.5" />
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000" />
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000" />
+			<column name="created_by_user_id" value="3" />
+		</insert>
+
+		<insert tableName="places">
+			<column name="name" value="Кооператив 'Інклюзія в дії'" />
+			<column name="address" value="вул. Зелена, 88, Львів" />
+			<column name="lat" value="49.8281" />
+			<column name="lon" value="24.0501" />
+			<column name="category" value="GOVERNMENT" />
+			<column name="wheelchair_accessible" value="1" />
+			<column name="tactile_elements" value="1" />
+			<column name="braille_signage" value="0" />
+			<column name="accessible_toilets" value="0" />
+			<column name="overall_accessibility_score" value="0.5" />
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000" />
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000" />
+			<column name="created_by_user_id" value="3" />
+		</insert>
+
+		<insert tableName="places">
+			<column name="name" value="Театр жестової мови 'Слово'" />
+			<column name="address" value="вул. Коперника, 22, Львів" />
+			<column name="lat" value="49.8385" />
+			<column name="lon" value="24.0267" />
+			<column name="category" value="CINEMA" />
+			<column name="wheelchair_accessible" value="1" />
+			<column name="tactile_elements" value="1" />
+			<column name="braille_signage" value="1" />
+			<column name="accessible_toilets" value="1" />
+			<column name="overall_accessibility_score" value="1.0" />
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000" />
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000" />
+			<column name="created_by_user_id" value="1" />
+		</insert>
+
+
+
+	<!-- end made by yura -->
+
+		<insert tableName="reviews">
+			<column name="place_id" value="1"/>
+			<column name="user_id" value="1"/>
+			<column name="rating" value="3"/>
+			<column name="comment" value="Чудовий центр з повним набором доступних функцій"/>
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+		</insert>
+
+		<insert tableName="reviews">
+			<column name="place_id" value="2"/>
+			<column name="user_id" value="2"/>
+			<column name="rating" value="5"/>
+			<column name="comment" value="Дуже зручний парк для всіх"/>
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+		</insert>
+
+		<insert tableName="reviews">
+			<column name="place_id" value="3"/>
+			<column name="user_id" value="3"/>
+			<column name="rating" value="3"/>
+			<column name="comment" value="Відмінне обладнання для адаптивного спорту"/>
+			<column name="created_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+			<column name="updated_at" valueComputed="UNIX_TIMESTAMP()*1000"/>
+		</insert>
     </changeSet>
 
 </databaseChangeLog> 
