@@ -7,11 +7,7 @@ import {
 } from "@tanstack/react-query";
 
 import { reviewsService } from "../services/reviews.service";
-import {
-  Review,
-  CreateReviewRequest,
-  UpdateReviewRequest,
-} from "../types/review.types";
+import { Review, CreateReviewRequest, UpdateReviewRequest } from "../types/review.types";
 
 export const REVIEWS_QUERY_KEYS = {
   all: ["reviews"] as const,
@@ -39,7 +35,12 @@ export function useReviews(
  */
 export function useReviewsByPlace(
   placeId: number | string,
-  options?: UseQueryOptions<Review[], Error, Review[], ReturnType<typeof REVIEWS_QUERY_KEYS.byPlace>>,
+  options?: UseQueryOptions<
+    Review[],
+    Error,
+    Review[],
+    ReturnType<typeof REVIEWS_QUERY_KEYS.byPlace>
+  >,
 ) {
   return useQuery({
     queryKey: REVIEWS_QUERY_KEYS.byPlace(placeId),
@@ -53,7 +54,12 @@ export function useReviewsByPlace(
  */
 export function useReviewsByUser(
   userId: number | string,
-  options?: UseQueryOptions<Review[], Error, Review[], ReturnType<typeof REVIEWS_QUERY_KEYS.byUser>>,
+  options?: UseQueryOptions<
+    Review[],
+    Error,
+    Review[],
+    ReturnType<typeof REVIEWS_QUERY_KEYS.byUser>
+  >,
 ) {
   return useQuery({
     queryKey: REVIEWS_QUERY_KEYS.byUser(userId),
@@ -87,11 +93,11 @@ export function useCreateReview(options?: UseMutationOptions<Review, Error, Crea
     onSuccess: (newReview) => {
       // Invalidate relevant queries
       queryClient.invalidateQueries({ queryKey: REVIEWS_QUERY_KEYS.list() });
-      queryClient.invalidateQueries({ 
-        queryKey: REVIEWS_QUERY_KEYS.byPlace(newReview.place.id) 
+      queryClient.invalidateQueries({
+        queryKey: REVIEWS_QUERY_KEYS.byPlace(newReview.place.id),
       });
-      queryClient.invalidateQueries({ 
-        queryKey: REVIEWS_QUERY_KEYS.byUser(newReview.user.id) 
+      queryClient.invalidateQueries({
+        queryKey: REVIEWS_QUERY_KEYS.byUser(newReview.user.id),
       });
     },
     ...options,
@@ -114,11 +120,11 @@ export function useUpdateReview(
       queryClient.setQueryData(REVIEWS_QUERY_KEYS.detail(updatedReview.id), updatedReview);
       // Invalidate related queries
       queryClient.invalidateQueries({ queryKey: REVIEWS_QUERY_KEYS.list() });
-      queryClient.invalidateQueries({ 
-        queryKey: REVIEWS_QUERY_KEYS.byPlace(updatedReview.place.id) 
+      queryClient.invalidateQueries({
+        queryKey: REVIEWS_QUERY_KEYS.byPlace(updatedReview.place.id),
       });
-      queryClient.invalidateQueries({ 
-        queryKey: REVIEWS_QUERY_KEYS.byUser(updatedReview.user.id) 
+      queryClient.invalidateQueries({
+        queryKey: REVIEWS_QUERY_KEYS.byUser(updatedReview.user.id),
       });
     },
     ...options,
@@ -129,13 +135,22 @@ export function useUpdateReview(
  * Hook for deleting a review
  */
 export function useDeleteReview(
-  options?: UseMutationOptions<void, Error, { id: number | string; placeId: number | string; userId: number | string }>
+  options?: UseMutationOptions<
+    void,
+    Error,
+    { id: number | string; placeId: number | string; userId: number | string }
+  >,
 ) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id }: { id: number | string; placeId: number | string; userId: number | string }) => 
-      reviewsService.deleteReview(id),
+    mutationFn: ({
+      id,
+    }: {
+      id: number | string;
+      placeId: number | string;
+      userId: number | string;
+    }) => reviewsService.deleteReview(id),
     onSuccess: (_, { id, placeId, userId }) => {
       // Remove the review from the cache
       queryClient.removeQueries({ queryKey: REVIEWS_QUERY_KEYS.detail(id) });
@@ -146,4 +161,4 @@ export function useDeleteReview(
     },
     ...options,
   });
-} 
+}

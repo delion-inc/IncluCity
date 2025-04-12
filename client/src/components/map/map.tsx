@@ -11,10 +11,8 @@ import dynamic from "next/dynamic";
 import { usePlaces } from "@/lib/hooks/use-places";
 import { useFilters } from "@/lib/contexts/filter.context";
 
-// Dynamically import MapPlaceMarker with no SSR
 const MapPlaceMarker = dynamic(() => import("./map-place-marker"), { ssr: false });
 
-// Define constants outside the component to prevent recreating objects on each render
 const DEFAULT_CENTER = {
   lat: 49.83826,
   lng: 24.02324,
@@ -23,21 +21,22 @@ const DEFAULT_CENTER = {
 const MAP_STYLE = { height: "100%", width: "100%" };
 
 const ErrorMessage = memo(({ message }: { message: string }) => (
-  <div className="absolute top-20 right-4 bg-red-100 p-2 rounded-md shadow-md z-10">
-    {message}
-  </div>
+  <div className="absolute top-20 right-4 bg-red-100 p-2 rounded-md shadow-md z-10">{message}</div>
 ));
-ErrorMessage.displayName = 'ErrorMessage';
+
+ErrorMessage.displayName = "ErrorMessage";
 
 function Map() {
   const { selectedCategories, selectedAccessibility } = useFilters();
-  
-  // Memoize the filter params to prevent unnecessary re-fetching
-  const filterParams = useMemo(() => ({
-    categories: selectedCategories.length > 0 ? selectedCategories : undefined,
-    accessibility: selectedAccessibility.length > 0 ? selectedAccessibility : undefined,
-  }), [selectedCategories, selectedAccessibility]);
-  
+
+  const filterParams = useMemo(
+    () => ({
+      categories: selectedCategories.length > 0 ? selectedCategories : undefined,
+      accessibility: selectedAccessibility.length > 0 ? selectedAccessibility : undefined,
+    }),
+    [selectedCategories, selectedAccessibility],
+  );
+
   const { data: places, error } = usePlaces(filterParams);
 
   useEffect(() => {

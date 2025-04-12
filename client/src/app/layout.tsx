@@ -8,10 +8,10 @@ import { QueryProvider } from "@/components/providers/query-provider";
 import { FilterProvider } from "@/lib/contexts/filter.context";
 
 // Load fonts with subset strategy for better performance
-const inter = Inter({ 
+const inter = Inter({
   subsets: ["latin", "cyrillic"],
-  display: 'swap',
-  variable: '--font-inter',
+  display: "swap",
+  variable: "--font-inter",
   preload: true,
 });
 
@@ -30,14 +30,14 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  width: 'device-width',
+  width: "device-width",
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
-    { media: '(prefers-color-scheme: dark)', color: '#121212' }
-  ]
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#121212" },
+  ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

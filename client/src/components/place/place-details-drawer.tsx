@@ -1,11 +1,7 @@
 "use client";
 
 import { Place } from "@/lib/types/place.types";
-import {
-  Drawer,
-  DrawerContent,
-  DrawerFooter,
-} from "@/components/ui/drawer";
+import { Drawer, DrawerContent, DrawerFooter } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 
 import PlaceHeader from "./place-header";
@@ -28,28 +24,24 @@ export default function PlaceDetailsDrawer({ place, isOpen, onClose }: PlaceDeta
       <DrawerContent className="max-w-lg mx-auto rounded-t-lg">
         <div className="max-h-[80vh] overflow-y-auto overscroll-contain">
           <PlaceHeader place={place} onClose={onClose} />
-  
+
           <div className="p-4 space-y-6 mb-16">
-            {/* Категорія */}
             <PlaceCategory place={place} />
 
-            {/* Доступність */}
             <PlaceAccessibility place={place} />
 
-            {/* Інформація про створення */}
             <PlaceInfo place={place} />
 
-            {/* Відгуки */}
             <ReviewSection place={place} />
           </div>
         </div>
-        
+
         <DrawerFooter className="border-t bg-white z-10">
-          <Button variant="outline" onClick={onClose} className="w-full">
+          <Button variant="outline" className="w-full cursor-pointer" onClick={onClose}>
             Закрити
           </Button>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
   );
-} 
+}

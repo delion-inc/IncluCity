@@ -4,10 +4,9 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactStrictMode: true,
   images: {
-    domains: ['jawg.io'], // image domains using
+    domains: ['jawg.io'], // Add any image domains you're using
     formats: ['image/avif', 'image/webp'],
   },
-  swcMinify: true,
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },

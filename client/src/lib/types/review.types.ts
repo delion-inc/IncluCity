@@ -34,4 +34,4 @@ export interface CreateReviewRequest {
 export interface UpdateReviewRequest {
   comment?: string;
   rating?: number;
-} 
+}

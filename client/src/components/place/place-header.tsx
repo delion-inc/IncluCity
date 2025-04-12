@@ -1,14 +1,10 @@
 "use client";
 
+import { MapPin, X } from "lucide-react";
+
 import { Place } from "@/lib/types/place.types";
 import { Button } from "@/components/ui/button";
-import { MapPin, X } from "lucide-react";
-import {
-  DrawerClose,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerDescription,
-} from "@/components/ui/drawer";
+import { DrawerClose, DrawerHeader, DrawerTitle, DrawerDescription } from "@/components/ui/drawer";
 
 interface PlaceHeaderProps {
   place: Place;
@@ -21,12 +17,7 @@ export default function PlaceHeader({ place, onClose }: PlaceHeaderProps) {
       <div className="flex items-center justify-between">
         <DrawerTitle className="text-xl">{place.name}</DrawerTitle>
         <DrawerClose asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8 rounded-full"
-            onClick={onClose}
-          >
+          <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full cursor-pointer" onClick={onClose}>
             <X className="h-4 w-4" />
           </Button>
         </DrawerClose>
@@ -39,4 +30,4 @@ export default function PlaceHeader({ place, onClose }: PlaceHeaderProps) {
       </DrawerDescription>
     </DrawerHeader>
   );
-} 
+}
