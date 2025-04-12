@@ -28,13 +28,13 @@ export default function RouteDialog() {
 
   return (
     <>
-      <Button
+      {/* <Button
         className="rounded-full px-4 py-6 bg-white/90 backdrop-blur-sm hover:bg-white shadow-lg border border-gray-200 text-primary"
         onClick={handleOpen}
       >
         <LocateFixed className="h-5 w-5  mr-2" />
         <span>Маршрут</span>
-      </Button>
+      </Button> */}
 
       {isOpen && (
         <>

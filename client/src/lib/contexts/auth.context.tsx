@@ -47,7 +47,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const response = await authService.login({ email, password });
 
       handleAuthResponse(response);
-      router.push("/dashboard");
+      router.push("/");
     } catch (error) {
       throw error;
     }
@@ -66,7 +66,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       });
 
       handleAuthResponse(response);
-      router.push("/dashboard");
+      router.push("/");
     } catch (error) {
       throw error;
     }

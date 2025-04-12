@@ -12,6 +12,15 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "IncluCity",
   description: "Платформа для інклюзивного розвитку міста",
+  icons: {
+    icon: "/map-pin.svg",
+    shortcut: "/map-pin.svg",
+    apple: "/map-pin.svg",
+    other: {
+      rel: "apple-touch-icon-precomposed",
+      url: "/map-pin.svg",
+    },
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -1,18 +1,22 @@
 "use client";
 
 import Link from "next/link";
+import { User, LogOut } from "lucide-react";
 
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 
-import LoginDialog from "./auth/login-dialog";
 import RouteDialog from "./route/route-dialog";
+import { useAuth } from "@/lib/contexts/auth.context";
 
-interface HeaderProps {
-  isLoggedIn: boolean;
-}
+export default function Header() {
+  const { isAuthenticated, logout } = useAuth();
 
-export default function Header({ isLoggedIn }: HeaderProps) {
+  const handleLogout = async () => {
+    await logout();
+  };
+
   return (
     <header className="h-16 bg-white border-b border-gray-200 px-4 flex items-center justify-between fixed top-0 left-0 right-0 z-50">
       <div className="flex items-center">
@@ -28,13 +32,29 @@ export default function Header({ isLoggedIn }: HeaderProps) {
       <div className="flex items-center gap-2">
         <RouteDialog />
 
-        {isLoggedIn ? (
-          <Avatar>
-            <AvatarImage src="/avatar.png" alt="@user" />
-            <AvatarFallback>КО</AvatarFallback>
-          </Avatar>
+        {isAuthenticated ? (
+          <Button
+            variant="secondary"
+            size="lg"
+            className="rounded-xl shadow-lg px-4 py-6 bg-white/90 backdrop-blur-sm hover:bg-white border border-gray-200 hover:border-red-500 text-red-500"
+            aria-label="Вийти"
+            onClick={handleLogout}
+          >
+            <LogOut className="h-5 w-5 mr-2" aria-hidden="true" />
+            <span>Вийти</span>
+          </Button>
         ) : (
-          <LoginDialog />
+          <Link href="/login">
+            <Button
+              variant="secondary"
+              size="lg"
+              className="rounded-xl shadow-lg px-4 py-6 bg-white/90 backdrop-blur-sm hover:bg-white border border-gray-200 hover:border-primary text-primary"
+              aria-label="Увійти"
+            >
+              <User className="h-5 w-5 mr-2" aria-hidden="true" />
+              <span>Увійти</span>
+            </Button>
+          </Link>
         )}
       </div>
     </header>

@@ -120,7 +120,7 @@ export default function SidebarFilters() {
   const accessibilityFeatures = [
     {
       id: AccessibilityFeature.WHEELCHAIR_ACCESSIBLE,
-      label: "Доступно для інвалідних візків",
+      label: "Інвалідні візки",
       icon: <Accessibility className="h-4 w-4" aria-hidden="true" />,
     },
     {

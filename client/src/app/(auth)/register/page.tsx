@@ -5,6 +5,9 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
 
 import {
   Card,
@@ -30,6 +33,7 @@ import { useAuth } from "@/lib/contexts/auth.context";
 
 export default function RegisterPage() {
   const { register } = useAuth();
+  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm<RegisterFormData>({
@@ -64,6 +68,10 @@ export default function RegisterPage() {
       }
     }
   };
+  
+  const handleGoBack = () => {
+    router.back();
+  };
 
   return (
     <div className="min-h-screen relative overflow-hidden bg-gradient-to-br from-blue-50 to-purple-50">
@@ -79,6 +87,16 @@ export default function RegisterPage() {
         <div className="absolute bottom-0 left-10 w-[70%] h-32 bg-blue-900/10 rounded-t-3xl transform skew-x-12"></div>
         <div className="absolute bottom-0 right-10 w-[60%] h-24 bg-blue-800/10 rounded-t-3xl transform -skew-x-6"></div>
       </div>
+
+      <Button 
+        variant="ghost" 
+        size="sm" 
+        className="absolute top-4 left-4 z-20 hover:bg-primary hover:text-white cursor-pointer text-gray-700"
+        onClick={handleGoBack}
+      >
+        <ArrowLeft className="h-5 w-5 mr-1" />
+        Назад
+      </Button>
 
       <div className="relative z-10 min-h-screen flex flex-col md:flex-row items-center justify-center p-4 md:p-8 gap-8">
         <div className="hidden md:flex flex-col w-full max-w-md items-center md:items-start justify-center space-y-6">
@@ -127,13 +145,11 @@ export default function RegisterPage() {
           </div>
         </div>
         
-        {/* App title for mobile */}
         <div className="md:hidden w-full max-w-md mb-6 text-center">
           <h1 className="text-3xl font-bold text-gray-800 mb-2">IncluCity</h1>
           <p className="text-gray-600">Приєднуйтесь до спільноти</p>
         </div>
         
-        {/* Right side - Registration Form */}
         <Card className="w-full max-w-md shadow-xl border-0 bg-white/90 backdrop-blur-sm">
           <CardHeader className="space-y-1">
             <CardTitle className="text-2xl text-center text-primary font-bold">Реєстрація</CardTitle>
