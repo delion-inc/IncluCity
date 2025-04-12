@@ -19,7 +19,7 @@ public class ReviewMapper {
         return Review.builder()
                 .place(place)
                 .user(user)
-                .rating(request.getRating().doubleValue())
+                .rating(request.getRating())
                 .comment(request.getComment())
                 .build();
     }

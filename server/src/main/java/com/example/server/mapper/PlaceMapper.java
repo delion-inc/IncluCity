@@ -6,6 +6,7 @@ import com.example.server.dto.place.PlaceUpdateRequest;
 import com.example.server.dto.review.PlaceDto;
 import com.example.server.entity.Place;
 import com.example.server.entity.User;
+import com.example.server.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Component;
 public class PlaceMapper {
 
     private final UserMapper userMapper;
+    private final ReviewRepository reviewRepository;
 
     public Place toPlace(PlaceRequest request, User createdBy) {
         return Place.builder()
@@ -101,6 +103,13 @@ public class PlaceMapper {
     }
 
     public PlaceResponse toPlaceResponse(Place place) {
+        if (place == null) {
+            return null;
+        }
+
+        Double averageRating = reviewRepository.getAverageRatingByPlaceId(place.getId());
+        Integer countOfReviews = reviewRepository.countByPlaceId(place.getId());
+
         return PlaceResponse.builder()
                 .id(place.getId())
                 .name(place.getName())
@@ -113,6 +122,8 @@ public class PlaceMapper {
                 .accessibleToilets(place.isAccessibleToilets())
                 .category(place.getCategory())
                 .overallAccessibilityScore(place.getOverallAccessibilityScore())
+                .averageRating(averageRating)
+                .countOfReviews(countOfReviews)
                 .createdAt(place.getCreatedAt())
                 .updatedAt(place.getUpdatedAt())
                 .createdBy(userMapper.toUserDto(place.getCreatedBy()))
