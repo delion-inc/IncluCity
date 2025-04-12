@@ -1,7 +1,10 @@
+import MapWrapper from "@/components/map/map-wrapper";
+import Layout from "@/components/layout/layout";
+
 export default function Home() {
   return (
-    <div>
-      <h1>IncluSity</h1>
-    </div>
+    <Layout>
+      <MapWrapper />
+    </Layout>
   );
 }

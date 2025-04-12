@@ -57,8 +57,8 @@ const eslintConfig = [
       "jsx-a11y/interactive-supports-focus": "warn",
       "prettier/prettier": "off",
       "no-unused-vars": "off",
-      "unused-imports/no-unused-vars": "warn",
-      "unused-imports/no-unused-imports": "warn",
+      "unused-imports/no-unused-vars": "off",
+      "unused-imports/no-unused-imports": "off",
       "object-curly-spacing": ["error", "never"],
       "@typescript-eslint/no-unused-vars": [
         "warn",
