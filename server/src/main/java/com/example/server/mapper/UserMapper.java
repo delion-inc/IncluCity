@@ -1,6 +1,7 @@
 package com.example.server.mapper;
 
 import com.example.server.dto.user.UserDto;
+import com.example.server.dto.user.UserPlaceDto;
 import com.example.server.entity.User;
 import com.example.server.enums.Role;
 import org.springframework.stereotype.Component;
@@ -39,6 +40,16 @@ public class UserMapper {
                 .roles(createdBy.getRoles().stream()
                         .map(Role::getValue)
                         .collect(Collectors.toSet()))
+                .build();
+    }
+
+    public UserPlaceDto toUserPlaceDto(User createdBy) {
+        if (createdBy == null) {
+            return null;
+        }
+
+        return UserPlaceDto.builder()
+                .id(createdBy.getId())
                 .build();
     }
 }
