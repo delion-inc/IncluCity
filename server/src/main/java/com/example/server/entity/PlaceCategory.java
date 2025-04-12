@@ -12,5 +12,8 @@ public enum PlaceCategory {
     SPORT,
     ENTERTAINMENT,
     GOVERNMENT,
-    OTHER
+    COMMUNITY_CENTER,
+    CULTURAL_CENTER,
+    PARK,
+    OTHER,
 } 

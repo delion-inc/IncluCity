@@ -1,5 +1,6 @@
 package com.example.server.service.impl;
 
+import com.example.server.dto.PlaceFilterDto;
 import com.example.server.dto.place.PlaceRequest;
 import com.example.server.dto.place.PlaceResponse;
 import com.example.server.dto.place.PlaceUpdateRequest;
@@ -10,7 +11,9 @@ import com.example.server.mapper.PlaceMapper;
 import com.example.server.repository.PlaceRepository;
 import com.example.server.repository.UserRepository;
 import com.example.server.service.PlaceService;
+import com.example.server.util.SpecificationHelper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,8 +33,9 @@ public class PlaceServiceImpl implements PlaceService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<PlaceResponse> getAllPlaces() {
-        return placeRepository.findAll().stream()
+    public List<PlaceResponse> getAllPlaces(PlaceFilterDto filter) {
+        Specification<Place> spec = SpecificationHelper.buildSpecification(filter);
+        return placeRepository.findAll(spec).stream()
                 .map(placeMapper::toPlaceResponse)
                 .collect(Collectors.toList());
     }

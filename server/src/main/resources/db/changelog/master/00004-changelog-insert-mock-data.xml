@@ -4,7 +4,7 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.4.xsd">
 
-    <changeSet id="insert_mock_data" author="roman">
+    <changeSet id="insert_mock_data" author="Roman">
         <insert tableName="users">
             <column name="email" value="user1@test.com"/>
             <column name="password" value="$2a$10$X7G3Y5H6I8J9K0L1M2N3O4P5Q6R7S8T9U0V1W2X3Y4Z5A6B7C8D9E0F"/>
@@ -45,9 +45,9 @@
 
         <insert tableName="places">
             <column name="name" value="Центр реабілітації 'Відновлення'"/>
-            <column name="address" value="вул. Героїв Дніпра, 25, Київ"/>
-            <column name="lat" value="50.4501"/>
-            <column name="lon" value="30.5234"/>
+            <column name="address" value="вул. Городоцька, 25, Львів"/>
+            <column name="lat" value="49.8430"/>
+            <column name="lon" value="24.0226"/>
             <column name="category" value="COMMUNITY_CENTER"/>
             <column name="wheelchair_accessible" value="1"/>
             <column name="tactile_elements" value="1"/>
@@ -61,10 +61,10 @@
 
         <insert tableName="places">
             <column name="name" value="Інклюзивний центр 'Мрія'"/>
-            <column name="address" value="вул. Городоцька, 123, Львів"/>
-            <column name="lat" value="49.8390"/>
-            <column name="lon" value="24.0295"/>
-            <column name="category" value="CULTURAL"/>
+            <column name="address" value="вул. Стрийська, 123, Львів"/>
+            <column name="lat" value="49.7798"/>
+            <column name="lon" value="24.0280"/>
+            <column name="category" value="CULTURAL_CENTER"/>
             <column name="wheelchair_accessible" value="1"/>
             <column name="tactile_elements" value="1"/>
             <column name="braille_signage" value="1"/>
@@ -77,10 +77,10 @@
 
         <insert tableName="places">
             <column name="name" value="Адаптований спортзал 'Сила духу'"/>
-            <column name="address" value="вул. Спортивна, 15, Харків"/>
-            <column name="lat" value="49.9935"/>
-            <column name="lon" value="36.2304"/>
-            <column name="category" value="SPORTS"/>
+            <column name="address" value="вул. Зелена, 15, Львів"/>
+            <column name="lat" value="49.8265"/>
+            <column name="lon" value="24.0449"/>
+            <column name="category" value="SPORT"/>
             <column name="wheelchair_accessible" value="1"/>
             <column name="tactile_elements" value="1"/>
             <column name="braille_signage" value="0"/>
@@ -93,10 +93,10 @@
 
         <insert tableName="places">
             <column name="name" value="Інклюзивний музей 'Спадщина'"/>
-            <column name="address" value="вул. Музейна, 8, Одеса"/>
-            <column name="lat" value="46.4825"/>
-            <column name="lon" value="30.7233"/>
-            <column name="category" value="MUSEUM"/>
+            <column name="address" value="вул. Вірменська, 8, Львів"/>
+            <column name="lat" value="49.8429"/>
+            <column name="lon" value="24.0297"/>
+            <column name="category" value="CULTURAL_CENTER"/>
             <column name="wheelchair_accessible" value="1"/>
             <column name="tactile_elements" value="0"/>
             <column name="braille_signage" value="0"/>
@@ -109,9 +109,9 @@
 
         <insert tableName="places">
             <column name="name" value="Центр соціальної адаптації"/>
-            <column name="address" value="вул. Соціальна, 10, Дніпро"/>
-            <column name="lat" value="48.4647"/>
-            <column name="lon" value="35.0462"/>
+            <column name="address" value="вул. Франка, 10, Львів"/>
+            <column name="lat" value="49.8369"/>
+            <column name="lon" value="24.0346"/>
             <column name="category" value="COMMUNITY_CENTER"/>
             <column name="wheelchair_accessible" value="0"/>
             <column name="tactile_elements" value="0"/>
@@ -125,9 +125,9 @@
 
         <insert tableName="places">
             <column name="name" value="Інклюзивна бібліотека"/>
-            <column name="address" value="вул. Книжкова, 5, Запоріжжя"/>
-            <column name="lat" value="47.8388"/>
-            <column name="lon" value="35.1396"/>
+            <column name="address" value="вул. Коперника, 5, Львів"/>
+            <column name="lat" value="49.8388"/>
+            <column name="lon" value="24.0278"/>
             <column name="category" value="LIBRARY"/>
             <column name="wheelchair_accessible" value="1"/>
             <column name="tactile_elements" value="1"/>
@@ -141,10 +141,10 @@
 
         <insert tableName="places">
             <column name="name" value="Адаптований басейн 'Дельфін'"/>
-            <column name="address" value="вул. Водна, 12, Вінниця"/>
-            <column name="lat" value="49.2331"/>
-            <column name="lon" value="28.4682"/>
-            <column name="category" value="SPORTS"/>
+            <column name="address" value="вул. Личаківська, 12, Львів"/>
+            <column name="lat" value="49.8396"/>
+            <column name="lon" value="24.0390"/>
+            <column name="category" value="SPORT"/>
             <column name="wheelchair_accessible" value="1"/>
             <column name="tactile_elements" value="1"/>
             <column name="braille_signage" value="1"/>
@@ -157,10 +157,10 @@
 
         <insert tableName="places">
             <column name="name" value="Інклюзивний кафе 'Спільна чашка'"/>
-            <column name="address" value="вул. Кавова, 3, Івано-Франківськ"/>
-            <column name="lat" value="48.9226"/>
-            <column name="lon" value="24.7111"/>
-            <column name="category" value="RESTAURANT"/>
+            <column name="address" value="вул. Руська, 3, Львів"/>
+            <column name="lat" value="49.8419"/>
+            <column name="lon" value="24.0338"/>
+            <column name="category" value="CAFE"/>
             <column name="wheelchair_accessible" value="1"/>
             <column name="tactile_elements" value="1"/>
             <column name="braille_signage" value="0"/>
@@ -173,10 +173,10 @@
 
         <insert tableName="places">
             <column name="name" value="Центр протезування"/>
-            <column name="address" value="вул. Медична, 7, Хмельницький"/>
-            <column name="lat" value="49.4229"/>
-            <column name="lon" value="26.9871"/>
-            <column name="category" value="COMMUNITY_CENTER"/>
+            <column name="address" value="вул. Підвальна, 7, Львів"/>
+            <column name="lat" value="49.8418"/>
+            <column name="lon" value="24.0350"/>
+            <column name="category" value="MEDICAL"/>
             <column name="wheelchair_accessible" value="1"/>
             <column name="tactile_elements" value="0"/>
             <column name="braille_signage" value="0"/>
@@ -189,10 +189,10 @@
 
         <insert tableName="places">
             <column name="name" value="Інклюзивний торговий центр"/>
-            <column name="address" value="вул. Торгова, 20, Чернівці"/>
-            <column name="lat" value="48.2917"/>
-            <column name="lon" value="25.9353"/>
-            <column name="category" value="SHOPPING"/>
+            <column name="address" value="вул. Сахарова, 20, Львів"/>
+            <column name="lat" value="49.8309"/>
+            <column name="lon" value="24.0151"/>
+            <column name="category" value="SHOP"/>
             <column name="wheelchair_accessible" value="0"/>
             <column name="tactile_elements" value="0"/>
             <column name="braille_signage" value="0"/>

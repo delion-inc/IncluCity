@@ -1,45 +1,14 @@
 version: '3.8'
 services:
-  db:
-    image: mysql:8.0
-    container_name: inclucity-mysql
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: 12345
-      MYSQL_DATABASE: hackathon_2025_test
-    ports:
-      - "3307:3306"
-    command: --default-authentication-plugin=mysql_native_password
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p12345"]
-      interval: 5s
-      timeout: 5s
-      retries: 3
-    networks:
-      - app-network
-
   backend:
     container_name: inclucity-backend
     build: .
-    restart: always
-    depends_on:
-      db:
-        condition: service_healthy
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/hackathon_2025_test?allowPublicKeyRetrieval=true&useSSL=false
+      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/hackathon_2025_test
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: 12345
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      SPRING_JPA_SHOW_SQL: "true"
       SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.MySQLDialect
-      SPRING_LIQUIBASE_ENABLED: "false"
-      SPRING_LIQUIBASE_CHANGE_LOG: classpath:db/changelog/db.changelog-master.xml
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge
