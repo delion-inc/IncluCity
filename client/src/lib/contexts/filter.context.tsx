@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode } from "react";
+import { createContext, useContext, useState, ReactNode, useMemo, useCallback } from "react";
 
 import { PlaceCategory, AccessibilityFeature } from "@/lib/types/place.types";
 
@@ -10,6 +10,7 @@ interface FilterContextType {
   setSelectedCategories: (categories: PlaceCategory[]) => void;
   setSelectedAccessibility: (features: AccessibilityFeature[]) => void;
   clearFilters: () => void;
+  isFiltersActive: boolean;
 }
 
 const FilterContext = createContext<FilterContextType | undefined>(undefined);
@@ -28,22 +29,26 @@ export function FilterProvider({ children }: { children: ReactNode }) {
   const [selectedCategories, setSelectedCategories] = useState<PlaceCategory[]>([]);
   const [selectedAccessibility, setSelectedAccessibility] = useState<AccessibilityFeature[]>([]);
 
-  const clearFilters = () => {
+  const clearFilters = useCallback(() => {
     setSelectedCategories([]);
     setSelectedAccessibility([]);
-  };
+  }, []);
 
-  return (
-    <FilterContext.Provider
-      value={{
-        selectedCategories,
-        selectedAccessibility,
-        setSelectedCategories,
-        setSelectedAccessibility,
-        clearFilters,
-      }}
-    >
-      {children}
-    </FilterContext.Provider>
+  const isFiltersActive = useMemo(() => {
+    return selectedCategories.length > 0 || selectedAccessibility.length > 0;
+  }, [selectedCategories.length, selectedAccessibility.length]);
+
+  const contextValue = useMemo(
+    () => ({
+      selectedCategories,
+      selectedAccessibility,
+      setSelectedCategories,
+      setSelectedAccessibility,
+      clearFilters,
+      isFiltersActive,
+    }),
+    [selectedCategories, selectedAccessibility, clearFilters, isFiltersActive],
   );
+
+  return <FilterContext.Provider value={contextValue}>{children}</FilterContext.Provider>;
 }

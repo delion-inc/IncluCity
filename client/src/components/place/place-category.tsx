@@ -1,6 +1,7 @@
 "use client";
 
 import { Place } from "@/lib/types/place.types";
+
 import { categoryConfig } from "../map/map-place-popup";
 
 interface PlaceCategoryProps {
@@ -17,4 +18,4 @@ export default function PlaceCategory({ place }: PlaceCategoryProps) {
       </div>
     </div>
   );
-} 
+}

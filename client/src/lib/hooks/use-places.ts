@@ -30,6 +30,10 @@ export function usePlaces(
   return useQuery({
     queryKey: PLACES_QUERY_KEYS.list(params),
     queryFn: () => placesService.getAllPlaces(params),
+    staleTime: 5 * 60 * 1000, // 5 minutes
+    gcTime: 10 * 60 * 1000, // 10 minutes
+    refetchOnWindowFocus: false,
+    refetchOnMount: true,
     ...options,
   });
 }
@@ -44,6 +48,9 @@ export function usePlaceById(
   return useQuery({
     queryKey: PLACES_QUERY_KEYS.detail(id),
     queryFn: () => placesService.getPlaceById(id),
+    staleTime: 10 * 60 * 1000, // 10 minutes
+    gcTime: 15 * 60 * 1000, // 15 minutes
+    refetchOnWindowFocus: false,
     ...options,
   });
 }

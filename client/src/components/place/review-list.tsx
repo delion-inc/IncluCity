@@ -1,9 +1,10 @@
 "use client";
 
-import { Review } from "@/lib/types/review.types";
 import { format } from "date-fns";
 import { uk } from "date-fns/locale";
 import { Star } from "lucide-react";
+
+import { Review } from "@/lib/types/review.types";
 import { cn } from "@/lib/utils";
 
 interface ReviewListProps {
@@ -45,7 +46,7 @@ export default function ReviewList({ reviews, isLoading }: ReviewListProps) {
                     key={i}
                     className={cn(
                       "h-4 w-4",
-                      i < review.rating ? "fill-yellow-400 text-yellow-400" : "text-gray-300"
+                      i < review.rating ? "fill-primary text-primary" : "text-gray-300",
                     )}
                   />
                 ))}
@@ -54,13 +55,11 @@ export default function ReviewList({ reviews, isLoading }: ReviewListProps) {
                 {review.user.firstName} {review.user.lastName.charAt(0)}.
               </span>
             </div>
-            <span className="text-xs text-muted-foreground">
-              {formatDate(review.createdAt)}
-            </span>
+            <span className="text-xs text-muted-foreground">{formatDate(review.createdAt)}</span>
           </div>
           <p className="text-sm">{review.comment}</p>
         </div>
       ))}
     </div>
   );
-} 
+}

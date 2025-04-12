@@ -1,9 +1,10 @@
 "use client";
 
-import { Place } from "@/lib/types/place.types";
 import { Calendar, Clock } from "lucide-react";
 import { format } from "date-fns";
 import { uk } from "date-fns/locale";
+
+import { Place } from "@/lib/types/place.types";
 
 interface PlaceInfoProps {
   place: Place;
@@ -29,4 +30,4 @@ export default function PlaceInfo({ place }: PlaceInfoProps) {
       </div>
     </div>
   );
-} 
+}

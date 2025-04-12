@@ -9,7 +9,7 @@ export const reviewsService = {
    */
   getAllReviews: async (): Promise<Review[]> => {
     const response = await apiClient.get<Review[]>(`${API_REVIEWS_URL}/all`);
-    
+
     return response.data;
   },
 
@@ -64,4 +64,4 @@ export const reviewsService = {
   deleteReview: async (id: number | string): Promise<void> => {
     await apiClient.delete(`${API_REVIEWS_URL}/${id}`);
   },
-}; 
+};

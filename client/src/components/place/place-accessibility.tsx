@@ -1,7 +1,8 @@
 "use client";
 
-import { Place } from "@/lib/types/place.types";
 import { Accessibility, Hand, FileSpreadsheet, SquareAsterisk } from "lucide-react";
+
+import { Place } from "@/lib/types/place.types";
 import { cn } from "@/lib/utils";
 
 interface PlaceAccessibilityProps {
@@ -14,10 +15,8 @@ export default function PlaceAccessibility({ place }: PlaceAccessibilityProps) {
       <h3 className="text-sm font-semibold mb-2">Доступність</h3>
       <div className="mb-3">
         <div className="flex items-center justify-between mb-1 text-sm">
-          <span>Загальна оцінка:</span>
-          <span className="font-medium">
-            {Math.round(place.overallAccessibilityScore * 100)}%
-          </span>
+          <span>Рівень доступності:</span>
+          <span className="font-medium">{Math.round(place.overallAccessibilityScore * 100)}%</span>
         </div>
         <div className="h-2.5 w-full bg-gray-100 rounded-full overflow-hidden">
           <div
@@ -32,7 +31,7 @@ export default function PlaceAccessibility({ place }: PlaceAccessibilityProps) {
             "flex items-center p-3 rounded-md border",
             place.wheelchairAccessible
               ? "border-green-200 bg-green-50 text-green-700"
-              : "border-gray-200 bg-gray-50 text-gray-400"
+              : "border-gray-200 bg-gray-50 text-gray-400",
           )}
         >
           <Accessibility className="h-5 w-5 mr-2 flex-shrink-0" />
@@ -43,7 +42,7 @@ export default function PlaceAccessibility({ place }: PlaceAccessibilityProps) {
             "flex items-center p-3 rounded-md border",
             place.tactileElements
               ? "border-green-200 bg-green-50 text-green-700"
-              : "border-gray-200 bg-gray-50 text-gray-400"
+              : "border-gray-200 bg-gray-50 text-gray-400",
           )}
         >
           <Hand className="h-5 w-5 mr-2 flex-shrink-0" />
@@ -54,7 +53,7 @@ export default function PlaceAccessibility({ place }: PlaceAccessibilityProps) {
             "flex items-center p-3 rounded-md border",
             place.brailleSignage
               ? "border-green-200 bg-green-50 text-green-700"
-              : "border-gray-200 bg-gray-50 text-gray-400"
+              : "border-gray-200 bg-gray-50 text-gray-400",
           )}
         >
           <FileSpreadsheet className="h-5 w-5 mr-2 flex-shrink-0" />
@@ -65,7 +64,7 @@ export default function PlaceAccessibility({ place }: PlaceAccessibilityProps) {
             "flex items-center p-3 rounded-md border",
             place.accessibleToilets
               ? "border-green-200 bg-green-50 text-green-700"
-              : "border-gray-200 bg-gray-50 text-gray-400"
+              : "border-gray-200 bg-gray-50 text-gray-400",
           )}
         >
           <SquareAsterisk className="h-5 w-5 mr-2 flex-shrink-0" />
@@ -74,4 +73,4 @@ export default function PlaceAccessibility({ place }: PlaceAccessibilityProps) {
       </div>
     </div>
   );
-} 
+}

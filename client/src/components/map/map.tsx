@@ -1,28 +1,43 @@
 "use client";
 
 import { MapContainer, TileLayer, ZoomControl } from "react-leaflet";
-import { useEffect } from "react";
+import { useEffect, useMemo, memo } from "react";
 import "leaflet/dist/leaflet.css";
 import "leaflet.markercluster/dist/MarkerCluster.css";
 import "leaflet.markercluster/dist/MarkerCluster.Default.css";
 import MarkerClusterGroup from "react-leaflet-cluster";
+import dynamic from "next/dynamic";
 
 import { usePlaces } from "@/lib/hooks/use-places";
 import { useFilters } from "@/lib/contexts/filter.context";
 
-import MapPlaceMarker from "./map-place-marker";
+const MapPlaceMarker = dynamic(() => import("./map-place-marker"), { ssr: false });
 
-export default function Map() {
-  const center = {
-    lat: 49.83826,
-    lng: 24.02324,
-  };
+const DEFAULT_CENTER = {
+  lat: 49.83826,
+  lng: 24.02324,
+};
 
+const MAP_STYLE = { height: "100%", width: "100%" };
+
+const ErrorMessage = memo(({ message }: { message: string }) => (
+  <div className="absolute top-20 right-4 bg-red-100 p-2 rounded-md shadow-md z-10">{message}</div>
+));
+
+ErrorMessage.displayName = "ErrorMessage";
+
+function Map() {
   const { selectedCategories, selectedAccessibility } = useFilters();
-  const { data: places, error } = usePlaces({
-    categories: selectedCategories.length > 0 ? selectedCategories : undefined,
-    accessibility: selectedAccessibility.length > 0 ? selectedAccessibility : undefined,
-  });
+
+  const filterParams = useMemo(
+    () => ({
+      categories: selectedCategories.length > 0 ? selectedCategories : undefined,
+      accessibility: selectedAccessibility.length > 0 ? selectedAccessibility : undefined,
+    }),
+    [selectedCategories, selectedAccessibility],
+  );
+
+  const { data: places, error } = usePlaces(filterParams);
 
   useEffect(() => {
     const style = document.createElement("style");
@@ -44,19 +59,16 @@ export default function Map() {
 
   return (
     <div className="h-full w-full relative" style={{ zIndex: 0 }}>
-      {error && (
-        <div className="absolute top-20 right-4 bg-red-100 p-2 rounded-md shadow-md z-10">
-          Помилка при завантаженні даних
-        </div>
-      )}
+      {error && <ErrorMessage message="Помилка при завантаженні даних" />}
 
       <MapContainer
-        center={center}
+        center={DEFAULT_CENTER}
         zoom={13}
-        style={{ height: "100%", width: "100%" }}
+        style={MAP_STYLE}
         zoomControl={false}
         attributionControl={true}
         className="z-0"
+        preferCanvas={true}
       >
         <ZoomControl position="bottomright" />
         <TileLayer
@@ -65,10 +77,11 @@ export default function Map() {
         />
 
         <MarkerClusterGroup
-          chunkedLoading
+          chunkedLoading={true}
           spiderfyOnMaxZoom={true}
           disableClusteringAtZoom={16}
           maxClusterRadius={60}
+          animate={true}
         >
           {places?.map((place) => <MapPlaceMarker key={place.id} place={place} />)}
         </MarkerClusterGroup>
@@ -76,3 +89,5 @@ export default function Map() {
     </div>
   );
 }
+
+export default memo(Map);

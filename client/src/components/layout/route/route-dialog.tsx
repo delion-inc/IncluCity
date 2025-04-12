@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { LocateFixed, X } from "lucide-react";
+import { X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 export default function RouteDialog() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleOpen = () => setIsOpen(true);
+  // const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
 
   useEffect(() => {

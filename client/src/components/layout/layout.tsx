@@ -7,11 +7,10 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useAuth } from "@/lib/contexts/auth.context";
 
 import Sidebar from "./sidebar/sidebar";
 import RouteDialog from "./route/route-dialog";
-import { useAuth } from "@/lib/contexts/auth.context";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, logout } = useAuth();
@@ -21,7 +20,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const handleSidebarCollapsedChange = (collapsed: boolean) => {
     setIsSidebarCollapsed(collapsed);
   };
-  
+
   const handleLogout = async () => {
     await logout();
   };
@@ -48,13 +47,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </div>
 
       <div className="fixed top-4 right-4 z-40 flex gap-2">
-        <RouteDialog />
+        {/* <RouteDialog /> */}
 
         {isAuthenticated ? (
           <Button
             variant="secondary"
             size="lg"
-            className="rounded-xl shadow-lg px-4 py-6 bg-white/90 backdrop-blur-sm hover:bg-white border border-gray-200 hover:border-red-500 text-red-500"
+            className="rounded-xl shadow-lg px-4 py-6 bg-white/90 backdrop-blur-sm hover:bg-white border border-gray-200 hover:border-red-500 text-red-500 cursor-pointer"
             aria-label="Вийти"
             onClick={handleLogout}
           >
@@ -77,7 +76,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </div>
 
       <Sidebar onCollapsedChange={handleSidebarCollapsedChange} />
-
     </div>
   );
 }
