@@ -64,85 +64,87 @@ interface MapPlacePopupProps {
 
 export default function MapPlacePopup({ place, onDetailsClick }: MapPlacePopupProps) {
   return (
-    <Card className="border-0 shadow-none p-0" style={{ width: "280px", maxWidth: "100%" }}>
-      <CardHeader className="p-3 pb-2">
-        <CardTitle className="text-base font-semibold">{place.name}</CardTitle>
-        <CardDescription className="text-xs mt-1">{place.address}</CardDescription>
-      </CardHeader>
-      <CardContent className="p-3 pt-0 space-y-3">
-        <div>
-          <div className="text-xs text-muted-foreground mb-1 flex justify-between">
-            <span>Доступність:</span>
-            <span className="font-medium">
-              {Math.round(place.overallAccessibilityScore * 100)}%
-            </span>
+    <div data-place-id={place.id} className="map-place-popup">
+      <Card className="border-0 shadow-none p-0" style={{ width: "280px", maxWidth: "100%" }}>
+        <CardHeader className="p-3 pb-2">
+          <CardTitle className="text-base font-semibold">{place.name}</CardTitle>
+          <CardDescription className="text-xs mt-1">{place.address}</CardDescription>
+        </CardHeader>
+        <CardContent className="p-3 pt-0 space-y-3">
+          <div>
+            <div className="text-xs text-muted-foreground mb-1 flex justify-between">
+              <span>Доступність:</span>
+              <span className="font-medium">
+                {Math.round(place.overallAccessibilityScore * 100)}%
+              </span>
+            </div>
+            <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
+              <div
+                className="h-full bg-primary rounded-full"
+                style={{ width: `${place.overallAccessibilityScore * 100}%` }}
+              />
+            </div>
+            <div className="grid grid-cols-2 gap-x-2 gap-y-1.5 mt-3">
+              <div
+                className={cn(
+                  "flex items-center gap-1",
+                  place.wheelchairAccessible ? "text-primary" : "text-gray-400",
+                )}
+              >
+                <Accessibility className="h-3.5 w-3.5 flex-shrink-0" />
+                <span className="text-[11px]">Інвалідні візки</span>
+              </div>
+              <div
+                className={cn(
+                  "flex items-center gap-1",
+                  place.tactileElements ? "text-primary" : "text-gray-400",
+                )}
+              >
+                <Hand className="h-3.5 w-3.5 flex-shrink-0" />
+                <span className="text-[11px]">Тактильні елементи</span>
+              </div>
+              <div
+                className={cn(
+                  "flex items-center gap-1",
+                  place.brailleSignage ? "text-primary" : "text-gray-400",
+                )}
+              >
+                <FileSpreadsheet className="h-3.5 w-3.5 flex-shrink-0" />
+                <span className="text-[11px]">Шрифт Брайля</span>
+              </div>
+              <div
+                className={cn(
+                  "flex items-center gap-1",
+                  place.accessibleToilets ? "text-primary" : "text-gray-400",
+                )}
+              >
+                <SquareAsterisk className="h-3.5 w-3.5 flex-shrink-0" />
+                <span className="text-[11px]">Адаптовані туалети</span>
+              </div>
+            </div>
           </div>
-          <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-primary rounded-full"
-              style={{ width: `${place.overallAccessibilityScore * 100}%` }}
-            />
-          </div>
-          <div className="grid grid-cols-2 gap-x-2 gap-y-1.5 mt-3">
-            <div
-              className={cn(
-                "flex items-center gap-1",
-                place.wheelchairAccessible ? "text-primary" : "text-gray-400",
-              )}
-            >
-              <Accessibility className="h-3.5 w-3.5 flex-shrink-0" />
-              <span className="text-[11px]">Інвалідні візки</span>
-            </div>
-            <div
-              className={cn(
-                "flex items-center gap-1",
-                place.tactileElements ? "text-primary" : "text-gray-400",
-              )}
-            >
-              <Hand className="h-3.5 w-3.5 flex-shrink-0" />
-              <span className="text-[11px]">Тактильні елементи</span>
-            </div>
-            <div
-              className={cn(
-                "flex items-center gap-1",
-                place.brailleSignage ? "text-primary" : "text-gray-400",
-              )}
-            >
-              <FileSpreadsheet className="h-3.5 w-3.5 flex-shrink-0" />
-              <span className="text-[11px]">Шрифт Брайля</span>
-            </div>
-            <div
-              className={cn(
-                "flex items-center gap-1",
-                place.accessibleToilets ? "text-primary" : "text-gray-400",
-              )}
-            >
-              <SquareAsterisk className="h-3.5 w-3.5 flex-shrink-0" />
-              <span className="text-[11px]">Адаптовані туалети</span>
-            </div>
-          </div>
-        </div>
 
-        <div className="text-xs">
-          <div className="flex items-center gap-1.5 mb-2">
-            <span className="font-medium mr-1">Категорія:</span>
-            <div className="flex items-center gap-1 text-primary">
-              {categoryConfig[place.category]?.icon || <HelpCircle className="h-4 w-4" />}
-              <span>{categoryConfig[place.category]?.label || place.category}</span>
+          <div className="text-xs">
+            <div className="flex items-center gap-1.5 mb-2">
+              <span className="font-medium mr-1">Категорія:</span>
+              <div className="flex items-center gap-1 text-primary">
+                {categoryConfig[place.category]?.icon || <HelpCircle className="h-4 w-4" />}
+                <span>{categoryConfig[place.category]?.label || place.category}</span>
+              </div>
             </div>
           </div>
-        </div>
 
-        <Button
-          variant="default"
-          size="sm"
-          className="w-full mt-2 text-xs cursor-pointer"
-          onClick={onDetailsClick}
-        >
-          Деталі
-          <ArrowRight className="h-3 w-3 ml-1" />
-        </Button>
-      </CardContent>
-    </Card>
+          <Button
+            variant="default"
+            size="sm"
+            className="w-full mt-2 text-xs cursor-pointer"
+            onClick={onDetailsClick}
+          >
+            Деталі
+            <ArrowRight className="h-3 w-3 ml-1" />
+          </Button>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

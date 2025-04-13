@@ -4,6 +4,7 @@ import {
   GetPlacesParams,
   CreatePlaceRequest,
   UpdatePlaceRequest,
+  PlaceSearchResult,
 } from "../types/place.types";
 
 const API_PLACES_URL = "/places";
@@ -29,6 +30,17 @@ export const placesService = {
 
     const response = await apiClient.get<Place[]>(`${API_PLACES_URL}/all`, {
       params: queryParams,
+    });
+
+    return response.data;
+  },
+
+  /**
+   * Search places by query text
+   */
+  searchPlaces: async (query: string): Promise<PlaceSearchResult[]> => {
+    const response = await apiClient.get<PlaceSearchResult[]>(`/places/search`, {
+      params: { query },
     });
 
     return response.data;
