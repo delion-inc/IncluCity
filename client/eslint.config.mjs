@@ -48,17 +48,17 @@ const eslintConfig = [
   ),
   {
     rules: {
-      "no-console": "warn",
-      "react/prop-types": "off",
-      "react/jsx-uses-react": "off",
+      "no-console": "off",
+      "react/prop-types": "warn",
+      "react/jsx-uses-react": "warn",
       "react/react-in-jsx-scope": "off",
-      "react-hooks/exhaustive-deps": "off",
+      "react-hooks/exhaustive-deps": "warn",
       "jsx-a11y/click-events-have-key-events": "warn",
       "jsx-a11y/interactive-supports-focus": "warn",
       "prettier/prettier": "off",
       "no-unused-vars": "off",
       "unused-imports/no-unused-vars": "off",
-      "unused-imports/no-unused-imports": "warn",
+      "unused-imports/no-unused-imports": "off",
       "object-curly-spacing": ["error", "never"],
       "@typescript-eslint/no-unused-vars": [
         "warn",
