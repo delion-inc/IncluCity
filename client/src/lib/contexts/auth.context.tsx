@@ -5,10 +5,8 @@ import { useRouter } from "next/navigation";
 
 import { authService, AuthResponse } from "../services/auth.service";
 
-// Define admin role constant
 const ADMIN_ROLE = 5320;
 
-// Simple cookie utilities
 const Cookies = {
   set: (name: string, value: string, options: { path?: string; expires?: number } = {}) => {
     const expires = options.expires
@@ -46,6 +44,7 @@ interface AuthContextType {
     password: string;
     firstName: string;
     lastName: string;
+    roles?: string[];
   }) => Promise<void>;
   logout: () => Promise<void>;
   isAdmin: () => boolean;
@@ -116,11 +115,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     password: string;
     firstName: string;
     lastName: string;
+    roles?: string[];
   }) => {
     try {
       const response = await authService.register({
         ...data,
-        roles: ["ROLE_USER"],
+        roles: data.roles || ["ROLE_USER"],
       });
 
       handleAuthResponse(response);
