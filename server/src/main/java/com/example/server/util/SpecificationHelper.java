@@ -21,11 +21,16 @@ public class SpecificationHelper {
 
     public static Specification<Place> buildSpecification(PlaceFilterDto filter) {
         if (filter == null) {
-            return Specification.where(null);
+            return isApproved();
         }
 
-        return Specification.where(hasCategory(filter.getCategory()))
+        return Specification.where(isApproved())
+                .and(hasCategory(filter.getCategory()))
                 .and(hasAccessibilityFeatures(filter.getAccessibility()));
+    }
+
+    private static Specification<Place> isApproved() {
+        return (root, query, cb) -> cb.equal(root.get("approved"), true);
     }
 
     private static Specification<Place> hasCategory(String categories) {

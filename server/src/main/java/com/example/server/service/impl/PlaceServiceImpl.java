@@ -1,5 +1,6 @@
 package com.example.server.service.impl;
 
+import com.example.server.dto.common.PageResponse;
 import com.example.server.dto.place.PlaceFilterDto;
 import com.example.server.dto.place.PlaceRequest;
 import com.example.server.dto.place.PlaceResponse;
@@ -13,6 +14,8 @@ import com.example.server.repository.UserRepository;
 import com.example.server.service.PlaceService;
 import com.example.server.util.SpecificationHelper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -79,5 +82,30 @@ public class PlaceServiceImpl implements PlaceService {
             throw new PlaceNotFound("Place not found with id: " + id, HttpStatus.NOT_FOUND);
         }
         placeRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public PageResponse<PlaceResponse> getUnapprovedPlaces(Pageable pageable) {
+        var page = placeRepository.findByApprovedFalse(pageable);
+        return new PageResponse<>(
+                page.getContent().stream()
+                        .map(placeMapper::toPlaceResponse)
+                        .toList(),
+                (int) page.getTotalElements(),
+                page.getTotalPages(),
+                page.getNumber()
+        );
+    }
+
+    @Override
+    @Transactional
+    public PlaceResponse approvePlace(Long id) {
+        Place place = placeRepository.findById(id)
+                .orElseThrow(() -> new PlaceNotFound("Place not found with id: " + id, HttpStatus.NOT_FOUND));
+        
+        place.setApproved(true);
+        Place approvedPlace = placeRepository.save(place);
+        return placeMapper.toPlaceResponse(approvedPlace);
     }
 } 

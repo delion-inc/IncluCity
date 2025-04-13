@@ -28,6 +28,7 @@ public class PlaceMapper {
                 .brailleSignage(request.isBrailleSignage())
                 .accessibleToilets(request.isAccessibleToilets())
                 .category(request.getCategory())
+                .approved(false)
                 .createdBy(createdBy)
                 .build();
     }
@@ -126,7 +127,8 @@ public class PlaceMapper {
                 .countOfReviews(countOfReviews)
                 .createdAt(place.getCreatedAt())
                 .updatedAt(place.getUpdatedAt())
-                .createdBy(userMapper.toUserPlaceDto(place.getCreatedBy()))
+                .isApproved(place.isApproved())
+                .createdBy(place.getCreatedBy().getId())
                 .build();
     }
 

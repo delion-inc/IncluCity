@@ -9,6 +9,8 @@ public interface AuthService {
     AuthResponse login(AuthRequest request, HttpServletResponse response);
     
     AuthResponse register(UserRequest request, HttpServletResponse response);
+
+    AuthResponse registerAdmin(UserRequest request, HttpServletResponse response);
     
     AuthResponse refreshToken(String refreshToken, HttpServletResponse response);
     

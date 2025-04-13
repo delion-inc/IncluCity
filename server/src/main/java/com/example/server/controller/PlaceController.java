@@ -1,5 +1,6 @@
 package com.example.server.controller;
 
+import com.example.server.dto.common.PageResponse;
 import com.example.server.dto.place.PlaceFilterDto;
 import com.example.server.dto.place.PlaceRequest;
 import com.example.server.dto.place.PlaceResponse;
@@ -14,6 +15,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -60,7 +63,7 @@ public class PlaceController {
             @ApiResponse(responseCode = "400", description = "Invalid input")
     })
     @PostMapping
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<PlaceResponse> createPlace(@Valid @RequestBody PlaceRequest request) {
         return ResponseEntity.ok(placeService.createPlace(request));
     }
@@ -73,7 +76,7 @@ public class PlaceController {
             @ApiResponse(responseCode = "404", description = "Place not found")
     })
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<PlaceResponse> updatePlace(
             @Parameter(description = "ID of the place to update")
             @PathVariable Long id,
@@ -89,7 +92,7 @@ public class PlaceController {
             @ApiResponse(responseCode = "404", description = "Place not found")
     })
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasRole('ROLE_USER')")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
     public ResponseEntity<Void> deletePlace(
             @Parameter(description = "ID of the place to delete")
             @PathVariable Long id
