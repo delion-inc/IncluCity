@@ -24,7 +24,7 @@ export default function RouteErrors() {
       </Button>
 
       {isOpen && (
-        <div className="mt-2 text-sm text-gray-600 space-y-2">
+        <div className="mt-2 text-sm text-gray-600 space-y-2 overflow-y-auto max-h-[200px]">
           <p>При побудові маршруту можуть виникати такі проблеми:</p>
           <div className="space-y-3 mt-3">
             <div>
