@@ -1,10 +1,11 @@
 package com.example.server.controller;
 
-import com.example.server.dto.common.PageResponse;
+import com.example.server.dto.openstreetmap.OpenStreetMapSearchResponse;
 import com.example.server.dto.place.PlaceFilterDto;
 import com.example.server.dto.place.PlaceRequest;
 import com.example.server.dto.place.PlaceResponse;
 import com.example.server.dto.place.PlaceUpdateRequest;
+import com.example.server.service.OpenStreetMapService;
 import com.example.server.service.PlaceService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -15,8 +16,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +28,7 @@ import java.util.List;
 @Tag(name = "Places", description = "Places management API")
 public class PlaceController {
     private final PlaceService placeService;
+    private final OpenStreetMapService openStreetMapService;
 
     @Operation(summary = "Get all places", description = "Returns a list of all places with optional filters")
     @ApiResponses(value = {
@@ -99,5 +99,15 @@ public class PlaceController {
     ) {
         placeService.deletePlace(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @Operation(summary = "Search places", description = "Searches for places by name in local database and OpenStreetMap")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully found places"),
+            @ApiResponse(responseCode = "400", description = "Invalid input")
+    })
+    @GetMapping("/search")
+    public ResponseEntity<List<OpenStreetMapSearchResponse>> searchPlaces(@RequestParam String query) {
+        return ResponseEntity.ok(openStreetMapService.searchPlaces(query));
     }
 }
