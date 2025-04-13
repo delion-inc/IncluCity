@@ -59,6 +59,19 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     @Transactional
+    public AuthResponse registerAdmin(UserRequest request, HttpServletResponse response) {
+        if (userRepository.existsByEmail(request.getEmail())) {
+            throw new AuthenticationException("Email already exists", HttpStatus.CONFLICT);
+        }
+
+        User user = createNewAdmin(request);
+        userRepository.save(user);
+
+        return createAuthResponseAndSetCookie(user, response);
+    }
+
+    @Override
+    @Transactional
     public AuthResponse refreshToken(String refreshToken, HttpServletResponse response) {
         validateRefreshToken(refreshToken);
         
@@ -105,6 +118,25 @@ public class AuthServiceImpl implements AuthService {
         Set<Role> roles = request.getRoles();
         if (roles == null || roles.isEmpty()) {
             roles = Set.of(Role.ROLE_USER);
+        }
+
+        User user = User.builder()
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .createdDate(Instant.now().toEpochMilli())
+                .modifiedDate(Instant.now().toEpochMilli())
+                .build();
+
+        user.setRoles(roles);
+        return user;
+    }
+
+    private User createNewAdmin(UserRequest request) {
+        Set<Role> roles = request.getRoles();
+        if (roles == null || roles.isEmpty()) {
+            roles = Set.of(Role.ROLE_ADMIN);
         }
 
         User user = User.builder()

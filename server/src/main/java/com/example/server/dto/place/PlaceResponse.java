@@ -30,5 +30,6 @@ public class PlaceResponse {
     private Integer countOfReviews;
     private Long createdAt;
     private Long updatedAt;
-    private UserPlaceDto createdBy;
+    private boolean isApproved;
+    private Long createdBy;
 } 
