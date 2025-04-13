@@ -13,4 +13,5 @@ import java.util.List;
 public interface PlaceRepository extends JpaRepository<Place, Long>, JpaSpecificationExecutor<Place> {
     Page<Place> findByApprovedFalse(Pageable pageable);
     List<Place> findByNameContainingIgnoreCase(String name);
+    List<Place> findByNameContainingIgnoreCaseAndApprovedTrue(String name);
 } 

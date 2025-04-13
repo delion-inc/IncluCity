@@ -1,132 +1,251 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Map, Navigation, Info, AlertCircle, User } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { useRoute } from "@/lib/contexts/route.context";
+import { getRoute } from "@/lib/services/route.service";
+
+import RouteErrors from "./route-errors";
 
 export default function RouteDialog() {
+  const {
+    isRoutingMode,
+    toggleRoutingMode,
+    startPoint,
+    endPoint,
+    setRouteGeometry,
+    setRouteSteps,
+    clearRoute,
+    routeProfile,
+    setRouteProfile,
+  } = useRoute();
   const [isOpen, setIsOpen] = useState(false);
-
-  // const handleOpen = () => setIsOpen(true);
-  const handleClose = () => setIsOpen(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!isOpen) return;
+    let isMounted = true;
 
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        handleClose();
+    async function calculateRoute() {
+      if (startPoint && endPoint) {
+        setIsLoading(true);
+        setError(null);
+        setRouteProfile(null);
+
+        const distance =
+          Math.sqrt(
+            Math.pow(startPoint.lat - endPoint.lat, 2) + Math.pow(startPoint.lng - endPoint.lng, 2),
+          ) * 111000; // приблизна відстань в метрах (1 градус ≈ 111 км)
+
+        if (distance < 5) {
+          // Менше 5 метрів
+          console.warn("Points are too close, may cause routing issues");
+        }
+
+        try {
+          const routeData = await getRoute(startPoint, endPoint);
+
+          if (!isMounted) return;
+
+          if (!routeData) {
+            console.error("Route data is null or undefined");
+            setError("Помилка отримання даних маршруту");
+
+            return;
+          }
+
+          if (routeData.routes && routeData.routes.length > 0) {
+            const route = routeData.routes[0];
+
+            if (!route.geometry) {
+              console.error("Route geometry is missing");
+              setError("Маршрут повернуто без геометрії");
+
+              return;
+            }
+
+            const geometry = route.geometry;
+            const steps = route.segments[0].steps;
+
+            setTimeout(() => {
+              if (!isMounted) return;
+              setRouteGeometry(geometry);
+              setRouteSteps(steps);
+
+              if (routeData.metadata?.query?.profile) {
+                const profile =
+                  routeData.metadata.query.profile === "wheelchair" ? "wheelchair" : "walking";
+
+                setRouteProfile(profile);
+              } else {
+                console.log("No profile in metadata, defaulting to wheelchair");
+                setRouteProfile("wheelchair");
+              }
+            }, 50);
+          } else {
+            console.error("No routes found in response", routeData);
+            setError("Не вдалося побудувати маршрут. Спробуйте інші точки.");
+          }
+        } catch (err: unknown) {
+          console.error("Error calculating route:", err);
+
+          if (err instanceof Error && err.message && err.message.includes("could not be found")) {
+            setError(
+              "Не вдалося побудувати маршрут між вказаними точками. Спробуйте вибрати точки ближче до тротуарів або вулиць.",
+            );
+          } else {
+            setError(
+              `Помилка при побудові маршруту: ${err instanceof Error ? err.message : "Невідома помилка"}`,
+            );
+          }
+        } finally {
+          setIsLoading(false);
+        }
       }
+    }
+
+    if (isRoutingMode && startPoint && endPoint) {
+      calculateRoute();
+    }
+
+    return () => {
+      isMounted = false;
     };
+  }, [startPoint, endPoint, isRoutingMode, setRouteGeometry, setRouteSteps, setRouteProfile]);
 
-    window.addEventListener("keydown", handleEscape);
+  const handleOpenChange = (open: boolean) => {
+    setIsOpen(open);
+    if (!open) {
+      setError(null);
+    }
+  };
 
-    return () => window.removeEventListener("keydown", handleEscape);
-  }, [isOpen]);
+  const handleToggleRoutingMode = () => {
+    toggleRoutingMode();
+    setIsOpen(false);
+  };
+
+  const handleClearRoute = () => {
+    clearRoute();
+    setError(null);
+  };
 
   return (
-    <>
-      {/* <Button
-        className="rounded-full px-4 py-6 bg-white/90 backdrop-blur-sm hover:bg-white shadow-lg border border-gray-200 text-primary"
-        onClick={handleOpen}
-      >
-        <LocateFixed className="h-5 w-5  mr-2" />
-        <span>Маршрут</span>
-      </Button> */}
+    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
+      <DialogTrigger asChild>
+        <Button
+          variant="secondary"
+          size="lg"
+          className={`rounded-xl shadow-lg px-4 py-6 bg-white/90 backdrop-blur-sm hover:bg-white border border-gray-200 
+            ${isRoutingMode ? "border-primary text-primary" : "hover:border-primary hover:text-primary text-gray-700"}`}
+          aria-label="Побудова маршруту"
+          onClick={() => setIsOpen(true)}
+        >
+          <Navigation className="h-5 w-5 mr-2" aria-hidden="true" />
+          <span>Маршрут</span>
+        </Button>
+      </DialogTrigger>
+      <DialogContent className="w-full max-w-md">
+        <DialogHeader>
+          <DialogTitle className="text-xl font-semibold">Побудова доступного маршруту</DialogTitle>
+        </DialogHeader>
 
-      {isOpen && (
-        <>
-          <div
-            className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40"
-            role="presentation"
-            onClick={handleClose}
-          />
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="mt-4 space-y-4">
+          <p className="text-gray-600 text-sm">
+            Виберіть початкову і кінцеву точки на карті для побудови найбільш доступного маршруту
+            для людей з обмеженими можливостями.
+          </p>
+
+          <div className="p-3 bg-blue-50 rounded-lg">
+            <p className="text-blue-600 text-sm flex items-start">
+              <Info className="h-4 w-4 mr-2 shrink-0 mt-0.5" />
+              <span>
+                Маркери автоматично будуть прив&apos;язані до найближчої доступної дороги чи
+                тротуару для побудови маршруту.
+              </span>
+            </p>
+          </div>
+
+          {error && <div className="p-3 bg-red-50 rounded-lg text-red-600 text-sm">{error}</div>}
+
+          {routeProfile && (
             <div
-              className="bg-white rounded-xl shadow-xl w-full max-w-md max-h-[90vh] overflow-auto animate-in fade-in-0 zoom-in-95 duration-300"
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="route-dialog-title"
+              className={`p-3 rounded-lg ${routeProfile === "wheelchair" ? "bg-green-50" : "bg-yellow-50"}`}
             >
-              <div className="p-4 border-b border-gray-200 flex justify-between items-center">
-                <h2 id="route-dialog-title" className="font-semibold">
-                  Побудова маршруту
-                </h2>
-                <button
-                  className="text-gray-400 hover:text-gray-500"
-                  aria-label="Закрити"
-                  onClick={handleClose}
-                >
-                  <X className="h-5 w-5" />
-                </button>
-              </div>
+              <p
+                className={`text-sm flex items-start ${routeProfile === "wheelchair" ? "text-green-600" : "text-yellow-600"}`}
+              >
+                {routeProfile === "wheelchair" ? (
+                  <AlertCircle className="h-4 w-4 mr-2 shrink-0 mt-0.5" />
+                ) : (
+                  <User className="h-4 w-4 mr-2 shrink-0 mt-0.5" />
+                )}
+                <span>
+                  {routeProfile === "wheelchair"
+                    ? "Маршрут побудовано для людей на візках"
+                    : "Маршрут побудовано для пішоходів (частково може бути недоступним для візків)"}
+                </span>
+              </p>
+            </div>
+          )}
 
-              <div className="p-4">
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-1 text-gray-700" htmlFor="start">
-                      Початкова точка
-                    </label>
-                    <Input
-                      id="start"
-                      className="border-gray-200"
-                      placeholder="Введіть адресу або оберіть на карті"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium mb-1 text-gray-700" htmlFor="end">
-                      Кінцева точка
-                    </label>
-                    <Input
-                      id="end"
-                      className="border-gray-200"
-                      placeholder="Введіть адресу або оберіть на карті"
-                    />
-                  </div>
-
-                  <div className="pt-2">
-                    <p className="text-sm font-medium mb-3 text-gray-700">Опції доступності</p>
-                    <div className="grid grid-cols-2 gap-2">
-                      <div className="flex items-center space-x-2">
-                        <input
-                          type="checkbox"
-                          id="wheelchair"
-                          className="rounded border-gray-300 text-primary focus:ring-primary"
-                        />
-                        <label htmlFor="wheelchair" className="text-sm text-gray-700">
-                          Доступно для візків
-                        </label>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <input
-                          type="checkbox"
-                          id="blind"
-                          className="rounded border-gray-300 text-primary focus:ring-primary"
-                        />
-                        <label htmlFor="blind" className="text-sm text-gray-700">
-                          Доступно для незрячих
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="pt-2">
-                    <Button
-                      className="bg-primary hover:bg-primary/90 text-white"
-                      onClick={handleClose}
-                    >
-                      Побудувати маршрут
-                    </Button>
-                  </div>
-                </div>
-              </div>
+          <div className="space-y-2">
+            <div className="flex items-center">
+              <div className="w-3 h-3 rounded-full bg-green-500 mr-2"></div>
+              <p className="text-sm">
+                {startPoint
+                  ? `Початкова точка: ${startPoint.name || `${startPoint.lat.toFixed(5)}, ${startPoint.lng.toFixed(5)}`}`
+                  : "Початкова точка: Не вибрано"}
+              </p>
+            </div>
+            <div className="flex items-center">
+              <div className="w-3 h-3 rounded-full bg-red-500 mr-2"></div>
+              <p className="text-sm">
+                {endPoint
+                  ? `Кінцева точка: ${endPoint.name || `${endPoint.lat.toFixed(5)}, ${endPoint.lng.toFixed(5)}`}`
+                  : "Кінцева точка: Не вибрано"}
+              </p>
             </div>
           </div>
-        </>
-      )}
-    </>
+
+          <div className="grid grid-cols-2 gap-3 pt-2">
+            <Button
+              variant={isRoutingMode ? "destructive" : "default"}
+              disabled={isLoading}
+              onClick={handleToggleRoutingMode}
+            >
+              {isRoutingMode ? "Вимкнути режим" : "Увімкнути режим"}
+            </Button>
+            <Button
+              variant="outline"
+              disabled={isLoading || (!startPoint && !endPoint)}
+              onClick={handleClearRoute}
+            >
+              Очистити маршрут
+            </Button>
+          </div>
+
+          {isRoutingMode && (
+            <div className="p-3 bg-blue-50 rounded-lg">
+              <p className="text-blue-600 text-sm flex items-center">
+                <Map className="h-4 w-4 mr-2" />
+                Натисніть на карту, щоб вибрати точки маршруту
+              </p>
+            </div>
+          )}
+
+          <RouteErrors />
+        </div>
+      </DialogContent>
+    </Dialog>
   );
 }
