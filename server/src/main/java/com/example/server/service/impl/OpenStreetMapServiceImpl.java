@@ -30,13 +30,14 @@ public class OpenStreetMapServiceImpl implements OpenStreetMapService {
     public List<OpenStreetMapSearchResponse> searchPlaces(String query) {
         List<OpenStreetMapSearchResponse> results = new ArrayList<>();
 
-        List<Place> localPlaces = placeRepository.findByNameContainingIgnoreCase(query);
+        List<Place> localPlaces = placeRepository.findByNameContainingIgnoreCaseAndApprovedTrue(query);
         if (!localPlaces.isEmpty()) {
             results.addAll(localPlaces.stream()
                     .map(place -> OpenStreetMapSearchResponse.builder()
                             .name(place.getName())
                             .lat(place.getLat())
                             .lon(place.getLon())
+                            .placeId(place.getId())
                             .build())
                     .limit(MAX_RESULTS)
                     .toList());
@@ -75,6 +76,7 @@ public class OpenStreetMapServiceImpl implements OpenStreetMapService {
                 .name(osmResponse.getDisplayName())
                 .lat(osmResponse.getLat())
                 .lon(osmResponse.getLon())
+                .placeId(null)
                 .build();
     }
 } 

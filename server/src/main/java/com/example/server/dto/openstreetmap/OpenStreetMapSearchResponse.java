@@ -15,4 +15,5 @@ public class OpenStreetMapSearchResponse {
     private String name;
     private BigDecimal lat;
     private BigDecimal lon;
+    private Long placeId;
 } 
