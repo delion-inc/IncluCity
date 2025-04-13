@@ -28,10 +28,10 @@ export default function PlaceHeader({ place, onClose }: PlaceHeaderProps) {
         </DrawerClose>
       </div>
       <DrawerDescription className="mt-2">
-        <div className="flex items-center gap-1.5 mt-1 text-muted-foreground">
+        <p className="flex items-center gap-1.5 mt-1 text-muted-foreground">
           <MapPin className="h-4 w-4" />
           <span>{place.address}</span>
-        </div>
+        </p>
       </DrawerDescription>
     </DrawerHeader>
   );

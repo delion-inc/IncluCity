@@ -145,8 +145,8 @@ export default function RouteDialog() {
         <Button
           variant="secondary"
           size="lg"
-          className={`rounded-xl shadow-lg px-4 py-6 bg-white/90 backdrop-blur-sm hover:bg-white border border-gray-200 
-            ${isRoutingMode ? "border-primary text-primary" : "hover:border-primary hover:text-primary text-gray-700"}`}
+          className={`rounded-xl shadow-lg px-4 py-6 bg-white/90 backdrop-blur-sm hover:bg-white border border-gray-200 text-primary 
+            ${isRoutingMode ? "border-primary " : "hover:border-primary"}`}
           aria-label="Побудова маршруту"
           onClick={() => setIsOpen(true)}
         >
