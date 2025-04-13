@@ -61,7 +61,7 @@ export default function LoginPage() {
   };
 
   const handleGoBack = () => {
-    router.back();
+    router.push("/");
   };
 
   return (

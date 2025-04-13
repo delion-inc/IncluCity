@@ -69,7 +69,7 @@ export default function RegisterPage() {
   };
 
   const handleGoBack = () => {
-    router.back();
+    router.push("/");
   };
 
   return (
