@@ -32,14 +32,7 @@ export function RouteProvider({ children }: { children: ReactNode }) {
 
   const toggleRoutingMode = useCallback(() => {
     setIsRoutingMode((prev) => !prev);
-    if (isRoutingMode) {
-      setStartPoint(null);
-      setEndPoint(null);
-      setRouteGeometry(null);
-      setRouteSteps(null);
-      setRouteProfile(null);
-    }
-  }, [isRoutingMode]);
+  }, []);
 
   const clearRoute = useCallback(() => {
     setStartPoint(null);

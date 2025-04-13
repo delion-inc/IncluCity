@@ -11,7 +11,7 @@ import { useSearchPlaces } from "@/lib/hooks/use-places";
 import { PlaceSearchResult } from "@/lib/types/place.types";
 
 import Sidebar from "./sidebar/sidebar";
-import RouteDialog from "./route/route-dialog";
+import RouteCard from "./route/route-card";
 
 function useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState<T>(value);
@@ -245,7 +245,7 @@ const NavButtons = memo(function NavButtons() {
 
   return (
     <div className="fixed top-4 right-4 z-40 flex gap-2">
-      <RouteDialog />
+      <RouteCard />
 
       {isAuthenticated ? (
         <Button

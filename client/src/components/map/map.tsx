@@ -152,25 +152,189 @@ function MapCustomEventHandler() {
 
 function MapClickHandler() {
   const { isRoutingMode, startPoint, endPoint, setStartPoint, setEndPoint } = useRoute();
+  const [centerMarkerActive, setCenterMarkerActive] = useState(false);
+
+  useEffect(() => {
+    const handleActivatePickMode = () => {
+      setCenterMarkerActive(true);
+    };
+
+    const handleDeactivatePickMode = () => {
+      setCenterMarkerActive(false);
+    };
+
+    const handlePlacePicked = () => {
+      setCenterMarkerActive(false);
+    };
+
+    window.addEventListener("activatePickMode", handleActivatePickMode);
+    window.addEventListener("deactivatePickMode", handleDeactivatePickMode);
+    window.addEventListener("placePicked", handlePlacePicked);
+
+    return () => {
+      window.removeEventListener("activatePickMode", handleActivatePickMode);
+      window.removeEventListener("deactivatePickMode", handleDeactivatePickMode);
+      window.removeEventListener("placePicked", handlePlacePicked);
+    };
+  }, []);
 
   useMapEvents({
     click: (e) => {
-      if (isRoutingMode) {
-        const { lat, lng } = e.latlng;
+      if (centerMarkerActive) return;
 
-        if (!startPoint) {
-          setStartPoint({ lat, lng });
-        } else if (!endPoint) {
-          setEndPoint({ lat, lng });
-        } else {
-          setStartPoint({ lat, lng });
-          setEndPoint(null);
-        }
+      if (!isRoutingMode) return;
+
+      const { lat, lng } = e.latlng;
+
+      if (!startPoint) {
+        setStartPoint({ lat, lng });
+      } else if (!endPoint) {
+        setEndPoint({ lat, lng });
+      } else {
+        setStartPoint({ lat, lng });
+        setEndPoint(null);
       }
     },
   });
 
   return null;
+}
+
+function MapCenterMarker() {
+  const [isActive, setIsActive] = useState(false);
+  const [activePoint, setActivePoint] = useState<"start" | "end" | null>(null);
+  const map = useMap();
+
+  const confirmSelection = useCallback(() => {
+    if (isActive && activePoint && map) {
+      const center = map.getCenter();
+
+      window.dispatchEvent(
+        new CustomEvent("placePicked", {
+          detail: {
+            lat: center.lat,
+            lng: center.lng,
+            point: activePoint,
+          },
+        }),
+      );
+      setIsActive(false);
+      setActivePoint(null);
+    }
+  }, [isActive, activePoint, map]);
+
+  useEffect(() => {
+    if (!map) return;
+
+    const centerMarkerStyle = document.createElement("style");
+
+    centerMarkerStyle.innerHTML = `
+      .center-marker {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 1000;
+        pointer-events: none;
+      }
+      .center-marker-inner {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 2px solid white;
+        box-shadow: 0 0 0 2px #3182ce;
+        background-color: rgba(49, 130, 206, 0.5);
+      }
+      .center-marker-pulse {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-color: rgba(49, 130, 206, 0.3);
+        animation: pulse 1.5s infinite;
+      }
+      @keyframes pulse {
+        0% {
+          transform: translate(-50%, -50%) scale(0.5);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(-50%, -50%) scale(1.5);
+          opacity: 0;
+        }
+      }
+      .center-text {
+        position: absolute;
+        top: calc(50% + 15px);
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: white;
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        color: #3182ce;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+    `;
+    document.head.appendChild(centerMarkerStyle);
+
+    return () => {
+      document.head.removeChild(centerMarkerStyle);
+    };
+  }, [map]);
+
+  useEffect(() => {
+    const handleActivatePickMode = (e: CustomEvent) => {
+      const { point } = e.detail;
+
+      setIsActive(true);
+      setActivePoint(point);
+    };
+
+    const handleDeactivatePickMode = () => {
+      setIsActive(false);
+      setActivePoint(null);
+    };
+
+    const handleConfirmPickMode = () => {
+      confirmSelection();
+    };
+
+    window.addEventListener("activatePickMode", handleActivatePickMode as EventListener);
+    window.addEventListener("deactivatePickMode", handleDeactivatePickMode as EventListener);
+    window.addEventListener("confirmPickMode", handleConfirmPickMode as EventListener);
+
+    return () => {
+      window.removeEventListener("activatePickMode", handleActivatePickMode as EventListener);
+      window.removeEventListener("deactivatePickMode", handleDeactivatePickMode as EventListener);
+      window.removeEventListener("confirmPickMode", handleConfirmPickMode as EventListener);
+    };
+  }, [confirmSelection]);
+
+  useMapEvents({
+    click: () => {
+      if (isActive && activePoint && map) {
+        confirmSelection();
+      }
+    },
+  });
+
+  if (!isActive) return null;
+
+  return (
+    <div className="center-marker">
+      <div className="center-marker-pulse"></div>
+      <div className="center-marker-inner"></div>
+      <div className="center-text">
+        {activePoint === "start" ? "Початкова точка" : "Кінцева точка"}
+      </div>
+    </div>
+  );
 }
 
 function Map() {
@@ -185,7 +349,7 @@ function Map() {
   );
 
   const { data: places, error } = usePlaces(filterParams);
-  const { isRoutingMode } = useRoute();
+  const { isRoutingMode, startPoint, endPoint } = useRoute();
 
   useEffect(() => {
     const style = document.createElement("style");
@@ -245,8 +409,9 @@ function Map() {
         <MapClickHandler />
         <MapRoute />
         <MapCustomEventHandler />
+        <MapCenterMarker />
 
-        {!isRoutingMode && (
+        {(!isRoutingMode || (!startPoint && !endPoint)) && (
           <MarkerClusterGroup
             chunkedLoading={true}
             spiderfyOnMaxZoom={true}
