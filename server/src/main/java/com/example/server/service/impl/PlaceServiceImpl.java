@@ -14,7 +14,6 @@ import com.example.server.repository.UserRepository;
 import com.example.server.service.PlaceService;
 import com.example.server.util.SpecificationHelper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
