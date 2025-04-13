@@ -53,20 +53,6 @@ public class AuthController {
         return ResponseEntity.ok(authService.register(request, response));
     }
 
-    @Operation(summary = "Register new admin", description = "Creates a new admin account and returns access token")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Successfully registered",
-                    content = @Content(schema = @Schema(implementation = AuthResponse.class))),
-            @ApiResponse(responseCode = "400", description = "Invalid input"),
-            @ApiResponse(responseCode = "409", description = "Email already exists")
-    })
-    @PostMapping("/registration-admin")
-    public ResponseEntity<AuthResponse> registerAdmin(
-            @RequestBody @Valid UserRequest request,
-            HttpServletResponse response) {
-        return ResponseEntity.ok(authService.registerAdmin(request, response));
-    }
-
     @Operation(summary = "Refresh token", description = "Generates new access token using refresh token")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully refreshed token",

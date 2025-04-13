@@ -1,6 +1,7 @@
 package com.example.server.service;
 
 import com.example.server.dto.common.PageResponse;
+import com.example.server.dto.openstreetmap.OpenStreetMapSearchResponse;
 import com.example.server.dto.place.PlaceFilterDto;
 import com.example.server.dto.place.PlaceRequest;
 import com.example.server.dto.place.PlaceResponse;
@@ -20,7 +21,7 @@ public interface PlaceService {
 
     void deletePlace(Long id);
 
-    // Admin methods
     PageResponse<PlaceResponse> getUnapprovedPlaces(Pageable pageable);
+
     PlaceResponse approvePlace(Long id);
-} 
+}

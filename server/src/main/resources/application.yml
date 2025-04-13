@@ -22,6 +22,10 @@ jwt:
   refresh-token:
     expiration: 604800000
 
+openstreetmap:
+  api:
+    url: https://nominatim.openstreetmap.org/search
+
 ---
 spring:
   config:
