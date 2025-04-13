@@ -17,7 +17,12 @@ export default function PlaceHeader({ place, onClose }: PlaceHeaderProps) {
       <div className="flex items-center justify-between">
         <DrawerTitle className="text-xl">{place.name}</DrawerTitle>
         <DrawerClose asChild>
-          <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full cursor-pointer" onClick={onClose}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8 rounded-full cursor-pointer"
+            onClick={onClose}
+          >
             <X className="h-4 w-4" />
           </Button>
         </DrawerClose>
