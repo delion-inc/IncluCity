@@ -12,12 +12,14 @@ import {
   GetPlacesParams,
   CreatePlaceRequest,
   UpdatePlaceRequest,
+  PlaceSearchResult,
 } from "../types/place.types";
 
 export const PLACES_QUERY_KEYS = {
   all: ["places"] as const,
   list: (params?: GetPlacesParams) => [...PLACES_QUERY_KEYS.all, "list", params] as const,
   detail: (id: number | string) => [...PLACES_QUERY_KEYS.all, "detail", id] as const,
+  search: (query: string) => [...PLACES_QUERY_KEYS.all, "search", query] as const,
 };
 
 /**
@@ -106,6 +108,27 @@ export function useDeletePlace(options?: UseMutationOptions<void, Error, number 
       // Invalidate the list query to refetch places after deletion
       queryClient.invalidateQueries({ queryKey: PLACES_QUERY_KEYS.list() });
     },
+    ...options,
+  });
+}
+
+/**
+ * Hook for searching places by query text
+ */
+export function useSearchPlaces(
+  query: string,
+  options?: UseQueryOptions<
+    PlaceSearchResult[],
+    Error,
+    PlaceSearchResult[],
+    ReturnType<typeof PLACES_QUERY_KEYS.search>
+  >,
+) {
+  return useQuery({
+    queryKey: PLACES_QUERY_KEYS.search(query),
+    queryFn: () => placesService.searchPlaces(query),
+    enabled: !!query && query.length > 2,
+    staleTime: 1 * 60 * 1000, // 1 minute
     ...options,
   });
 }

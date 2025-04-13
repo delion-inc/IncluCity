@@ -66,3 +66,10 @@ export interface GetPlacesParams {
   categories?: PlaceCategory[];
   accessibility?: AccessibilityFeature[];
 }
+
+export interface PlaceSearchResult {
+  name: string;
+  lat: number;
+  lon: number;
+  placeId: number | null;
+}

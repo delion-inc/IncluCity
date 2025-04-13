@@ -209,7 +209,7 @@ export default function SidebarFilters() {
               {accessibilityFeatures.map((feature) => (
                 <div
                   key={feature.id}
-                  className="flex items-center justify-between group hover:bg-primary/5 rounded-md p-2.5 transition-colors cursor-pointer"
+                  className="flex items-center justify-between group hover:bg-primary/5 rounded-md p-2.5 transition-colors"
                 >
                   <div className="flex items-center space-x-2.5">
                     <Checkbox
