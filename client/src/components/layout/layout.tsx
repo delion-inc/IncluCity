@@ -47,7 +47,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </div>
 
       <div className="fixed top-4 right-4 z-40 flex gap-2">
-        {/* <RouteDialog /> */}
+        <RouteDialog />
 
         {isAuthenticated ? (
           <Button

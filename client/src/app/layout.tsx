@@ -6,6 +6,7 @@ import "./globals.css";
 import { AuthProvider } from "@/components/providers/auth-provider";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { FilterProvider } from "@/lib/contexts/filter.context";
+import { RouteProvider } from "@/lib/contexts/route.context";
 
 // Load fonts with subset strategy for better performance
 const inter = Inter({
@@ -46,7 +47,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={inter.className}>
         <QueryProvider>
           <FilterProvider>
-            <AuthProvider>{children}</AuthProvider>
+            <RouteProvider>
+              <AuthProvider>{children}</AuthProvider>
+            </RouteProvider>
           </FilterProvider>
         </QueryProvider>
       </body>
