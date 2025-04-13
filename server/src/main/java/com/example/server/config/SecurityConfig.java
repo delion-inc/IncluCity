@@ -65,7 +65,8 @@ public class SecurityConfig {
     private static final String[] ALLOWED_ORIGINS = {
             "http://localhost:5173",
             "http://localhost:3000",
-            "http://localhost:4173"
+            "http://localhost:4173",
+            "http://ec2-18-199-178-0.eu-central-1.compute.amazonaws.com:3000"
     };
 
     private final JwtAuthenticationFilter jwtAuthFilter;
