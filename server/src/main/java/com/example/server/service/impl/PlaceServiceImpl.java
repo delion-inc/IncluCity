@@ -36,8 +36,7 @@ public class PlaceServiceImpl implements PlaceService {
     @Override
     @Transactional(readOnly = true)
     public List<PlaceResponse> getAllPlaces(PlaceFilterDto filter) {
-        Specification<Place> spec = SpecificationHelper.buildSpecification(filter);
-        return placeRepository.findAll(spec).stream()
+        return placeRepository.findAll().stream()
                 .map(placeMapper::toPlaceResponse)
                 .collect(Collectors.toList());
     }

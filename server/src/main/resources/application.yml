@@ -1,6 +1,8 @@
 spring:
-  profiles:
-    active: test
+  datasource:
+    url: jdbc:mysql://localhost:3306/hackathon_2025_test
+    username: root
+    password: 12345
   jpa:
     hibernate:
       ddl-auto: none
@@ -25,23 +27,3 @@ jwt:
 openstreetmap:
   api:
     url: https://nominatim.openstreetmap.org/search
-
----
-spring:
-  config:
-    activate:
-      on-profile: test
-  datasource:
-    url: jdbc:mysql://localhost:3306/hackathon_2025_test
-    username: root
-    password: 12345
-
----
-spring:
-  config:
-    activate:
-      on-profile: prod
-  datasource:
-    url: jdbc:mysql://localhost:3306/hackathon_2025_test2
-    username: root
-    password: 12345
